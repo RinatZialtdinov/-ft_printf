@@ -34,30 +34,171 @@ char *ft_strjoin_one_elem(char *s1, char elem)
 	return (newstr);
 }
 
+void check_precision(char **result, int *size, t_spec *elem, int number)
+{
+    int len;
+    int i;
+    int mod;
+
+    i = 0;
+    if (elem->precision == 0)
+        return ;
+    len = 0;
+    if (elem->left == 0)
+    {
+        if ((*result)[0] == '+' || (*result)[0] == '-' || (*result)[0] == ' ')
+        {
+            i = 1;
+            while ((*size) != i)
+            {
+                if (number != 0)
+                {
+                    mod = number % 10;
+                    number = number / 10;
+                    (*result)[(*size) - 1] = ((char) mod + 48);
+                }
+                else
+                {
+                    (*result)[(*size) - 1] = 48;
+                }
+                    (*size)--;
+            }
+        }
+        else
+        {
+            i = 0;
+            while ((*size) != i)
+            {
+                if (number != 0)
+               {
+                    mod = number % 10;
+                    number = number / 10;
+                    (*result)[(*size) - 1] = (char) mod + 48;
+                }
+                else
+                {
+                    (*result)[(*size) - 1] = 48;
+                }
+                (*size)--;
+            }
+        }  
+    }
+    else
+    {
+        if ((*result)[0] == '+' || (*result)[0] == '-' || (*result)[0] == ' ')
+            i = 1;
+        else
+        {
+            i = 0;
+        }
+        while ((*size) != i)
+        {
+            while (number != 0)
+            {
+                mod = number % 10;
+                len = 10 * len + mod;
+                number = number / 10;
+                //(*result)[i] = ((char) mod + 48);
+                //printf("len - %i\n", len);
+            }
+            if (len != 0)
+            {
+                mod = len % 10;
+                len = len / 10;
+                (*result)[i] = ((char) mod + 48);
+            }
+            else
+            {
+                (*result)[i] = ' ';
+            }
+            //printf("%s\n", (*result));
+            i++;
+        }
+    }
+    
+
+}
+
 void check_flag(char **result, int *size, t_spec *elem, int number)
 {
+    int i;
+
+    i = 0;
+    if (elem->minus == 1)
+    {
+        elem->left = 1;
+    }
+    else if(elem->nul == 1 && elem->precision == 0)
+    {
+        while (i != elem->field)
+        {
+            (*result)[i] = '0';
+            i++;
+        }
+    }
     if (elem->plus == 1)
     {
         if (number >= 0)
-            result[0] = '+';
+            (*result)[0] = '+';
         else
-            result[0] = '-';
+            (*result)[0] = '-';
     }
-    if (elem->minus == )
+    else if (elem->probel == 1)
+    {
+        if (number >= 0)
+            (*result)[0] = ' ';
+        else
+            (*result)[0] = '-';     
+    }
 }
 void write_int_elem(t_spec *elem, va_list ap)
 {
     int size;
     int number;
-    int i;
     char *result;
+    int i;
+    int len;
+    int mod;
 
+    len = 0;
+    i = 0;
     size = elem->field;
     result = (char *)malloc(sizeof(char) * (size + 1));
     number = va_arg(ap, int);
     check_flag(&result, &size, elem, number);
-    check_precision(&result, &size, elem);
-    check_modif(&result, &size, elem);
+    if (elem->precision != 0)
+        check_precision(&result, &size, elem, number);
+    else
+    {
+        if (result[0] == '+' || result[0] == '-' || result[0] == ' ')
+        {
+            i = 1;
+        }
+        while (i != size)
+        {
+            while (number != 0)
+            {
+                mod = number % 10;
+                len = 10 * len + mod;
+                number = number / 10;
+                //(*result)[i] = ((char) mod + 48);
+                //printf("len - %i\n", len);
+            }
+            if (len != 0)
+            {
+                mod = len % 10;
+                len = len / 10;
+                result[i] = ((char) mod + 48);
+            }
+            else
+            {
+                result[i] = ' ';
+            }
+            i++;
+        }
+    }
+    ft_putstr(result);
+    //check_modif(&result, &size, elem);
 }
 
 void ft_create_str(t_spec *elem, va_list ap)
@@ -95,6 +236,7 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
     elem->nul = 0;
     elem->field = 0;
     elem->precision = 0;
+    elem->left = 0;
     i = 0;
     while (start <= end)
     {
@@ -187,8 +329,8 @@ int ft_printf(const char *format, ...)
             {
                 i++;
             }
-            printf("k = %c\n i = %c\n", format[k], format[i]);
-            create(format, k + 1, i, ap);
+            //printf("k = %c\n i = %c\n", format[k], format[i]);
+            ft_create_elem(format, k + 1, i, ap);
         }
         else
         {
@@ -203,9 +345,9 @@ int ft_printf(const char *format, ...)
 
 int main()
 {
-    int a;
-
-    a = 15;
-    ft_printf("Hello% +-+-10.2ld", a);
+    int d1=123, d2=42, d3=1543;
+    ft_printf("%06d\n", -123);
+    printf("--------\n");
+    printf("%06d\n", -123);
     return (0);
 }
