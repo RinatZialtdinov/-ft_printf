@@ -34,10 +34,51 @@ char *ft_strjoin_one_elem(char *s1, char elem)
 	return (newstr);
 }
 
-/*ft_create_str(t_spec *elem, va_list ap)
+void check_flag(char **result, int *size, t_spec *elem, int number)
 {
-    
-}*/
+    if (elem->plus == 1)
+    {
+        if (number >= 0)
+            result[0] = '+';
+        else
+            result[0] = '-';
+    }
+    if (elem->minus == )
+}
+void write_int_elem(t_spec *elem, va_list ap)
+{
+    int size;
+    int number;
+    int i;
+    char *result;
+
+    size = elem->field;
+    result = (char *)malloc(sizeof(char) * (size + 1));
+    number = va_arg(ap, int);
+    check_flag(&result, &size, elem, number);
+    check_precision(&result, &size, elem);
+    check_modif(&result, &size, elem);
+}
+
+void ft_create_str(t_spec *elem, va_list ap)
+{
+    if (elem->conv_type == 'd' || elem->conv_type == 'i' || elem->conv_type == 'u')
+    {
+        write_int_elem(elem, ap);
+    }
+    else if (elem->conv_type == 'o')
+    {;}
+    else if (elem->conv_type == 'x' || elem->conv_type == 'X')
+    {;}
+    else if (elem->conv_type == 'c')
+    {;}
+    else if (elem->conv_type == 's')
+    {;}
+    else if (elem->conv_type == 'p')
+    {;}
+    else if (elem->conv_type == 'f')
+    {;}
+}
 
 void ft_create_elem(const char *format, int start, int end, va_list ap)
 {
@@ -48,8 +89,10 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
 
     size = 1;
     elem = (t_spec *)malloc(sizeof(t_spec));
-    elem->flag = (char *)malloc(sizeof(char) * size);
-    elem->flag[0] = '\0';
+    elem->minus = 0;
+    elem->plus = 0;
+    elem->probel = 0;
+    elem->nul = 0;
     elem->field = 0;
     elem->precision = 0;
     i = 0;
@@ -57,19 +100,21 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
     {
         while (format[start] == '+' || format[start] == '-' || format[start] == ' ' || format[start] == '0')
         {
-            if (ft_strchr(elem->flag, format[start]) == NULL)
+            if (format[start] == '+')
             {
-                if (ft_strlen(elem->flag) == 0)
-                    elem->flag = ft_strjoin_one_elem(elem->flag, format[start]);
-                else
-                {
-                    str = elem->flag;
-                    size = ft_strlen(elem->flag);
-                    ft_strdel(&elem->flag);
-                    elem->flag = (char *)malloc(sizeof(char) * (size + 1));
-                    elem->flag = str;
-                    elem->flag = ft_strjoin_one_elem(elem->flag, format[start]);
-                }
+                elem->plus = 1;
+            }
+            if (format[start] == '-')
+            {
+                elem->minus = 1;
+            }
+            if (format[start] == ' ')
+            {
+                elem->probel = 1;
+            }
+            if (format[start] == '0')
+            {
+                elem->nul = 1;
             }
             start++;
         }

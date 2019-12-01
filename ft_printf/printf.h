@@ -16,7 +16,11 @@
 
 typedef struct  s_spec
 {
-    char *flag;
+    int left;
+    int minus;
+    int plus;
+    int probel;
+    int nul;
     int field;
     int precision;
     char *modif;
