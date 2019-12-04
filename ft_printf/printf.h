@@ -25,4 +25,5 @@ typedef struct  s_spec
     int precision;
     char *modif;
     char conv_type;
+    int negative;
 }               t_spec;
