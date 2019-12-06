@@ -51,14 +51,11 @@ void write_right(int *size, int number, char **result, t_spec *elem)
             number = number / 10;
             (*result)[(*size) - 1] = (char) mod + 48;
         }
-        else if (elem->nul == 1 && elem->minus == 0 && elem->precision != count)
+        else if (elem->nul == 1 && elem->minus == 0 && elem->precision == 0)
         {
-            (*result)[(*size) - 1] = 48;
+            if (elem->plus == 1 && (*size) != 1)
+                (*result)[(*size) - 1] = 48;
             count++;
-        }
-        else if ((*result)[(*size) - 1] != '+')
-        {
-            (*result)[(*size) - 1] = ' ';
         }
         (*size)--;
     }
@@ -73,12 +70,13 @@ int write_left(char **result, int *size, int number, t_spec *elem)
     i = 0;
     len = 0;
     //printf("y \n");
-    if ((*result)[0] == '+' || elem->negative == 1 || (*result)[0] == ' ')
+     //printf("res - |%s|\n", *result);
+    if (elem->plus == 1 || elem->negative == 1 || elem->probel == 0)
     {
         i = 1;
     }
-    if (elem->minus == 1)
-    {
+    //if (elem->minus == 1)
+    //{
         while (i != (*size))
         {
             while (number != 0)
@@ -89,27 +87,104 @@ int write_left(char **result, int *size, int number, t_spec *elem)
                     //(*result)[i] = ((char) mod + 48);
                     //printf("len - %i\n", len);
             }
+            //printf("len - %i\n", len);
+            if (len != 0)
+            {
+                //printf("yay\n");
+                mod = len % 10;
+                len = len / 10;
+                (*result)[i] = ((char) mod + 48);
+            }
+            i++;
+        }
+        //printf("res - %s\n", *result);
+        return (1);
+    //}
+    //printf("res - %s\n", *result);
+    //return (0);
+}
+
+void write_right_prec(int *size, int number, char **result, t_spec *elem)
+{
+    int mod;
+    int i;
+    int count;
+    int copy_precision;
+
+    copy_precision = elem->precision;
+    //printf("hieA\n");
+    count = ft_intlen(number);
+    i = 0;
+    while ((*size) != i)
+    {
+        if (number != 0)
+        {
+            mod = number % 10;
+            number = number / 10;
+            (*result)[(*size) - 1] = (char) mod + 48;
+            copy_precision--;
+        }
+        else if (copy_precision != 0)
+        {
+            (*result)[(*size) - 1] = '0';
+            copy_precision--;
+        }
+        (*size)--;
+
+    }
+    //printf("result - |%s|\n", *result);
+}
+
+void write_left_prec(char **result, int *size, int number, t_spec *elem)
+{
+    int mod;
+    int len;
+    int i;
+    int len_num;
+    int copy_precision;
+
+    copy_precision = elem->precision;
+    //printf("%i\n", copy_precision);
+    len_num = ft_intlen(number);
+    //printf("%i\n", len_num);
+    //printf("asdasd%+-06.4d\n", -123);
+    i = 0;
+    len = 0;
+    if (elem->plus == 1 || elem->negative == 1 || elem->probel == 1)
+    {
+        i = 1;
+    }
+    while (i != (*size))
+    {
+        while (number != 0)
+        {
+            mod = number % 10;
+            len = 10 * len + mod;
+            number = number / 10;
+        }
+        if (copy_precision > len_num)
+        {
+            copy_precision--;
+            (*result)[i] = '0';
+            //printf("hieA\n");
+        }
+        else
+        {
             if (len != 0)
             {
                 mod = len % 10;
                 len = len / 10;
                 (*result)[i] = ((char) mod + 48);
+                //printf("hieA\n");
             }
-            else
-            {
-                (*result)[i] = ' ';
-            }
-            i++;
         }
-        return (1);
+        i++;
     }
-    return (0);
-    //printf("res - %s\n", *result);
+    //printf("%s\n", (*result));
 }
 
 void check_precision(char **result, int *size, t_spec *elem, int number)
 {
-    int len;
     int i;
     int mod;
     int count;
@@ -118,95 +193,55 @@ void check_precision(char **result, int *size, t_spec *elem, int number)
     i = 0;
     if (elem->precision == 0)
         return ;
-    len = 0;
-    if (elem->left == 0)
+    if (elem->left == 1)
     {
-        //printf("udsad\n");
-        if ((*result)[0] == '+' || elem->negative == 1 || (*result)[0] == ' ')
-        {
-            if ((*result)[0] == '+')
-                i = 1;
-            while ((*size) != i)
-            {
-                //printf("hi\n");
-                if (number != 0)
-                {
-                    mod = number % 10;
-                    number = number / 10;
-                    (*result)[(*size) - 1] = ((char) mod + 48);
-                }
-                else if (elem->precision != count)
-                {
-                    (*result)[(*size) - 1] = 48;
-                    count++;
-                }
-                else
-                {
-                    (*result)[(*size) - 1] = ' ';
-                }
-                
-                    (*size)--;
-            }
-        }
-        else
-        {
-            write_right(size, number, result, elem);
-            /*i = 0;
-            while ((*size) != i)
-            {
-                if (number != 0)
-               {
-                    mod = number % 10;
-                    number = number / 10;
-                    (*result)[(*size) - 1] = (char) mod + 48;
-                }
-                else if (elem->nul == 1 && elem->minus == 0)
-                {
-                    (*result)[(*size) - 1] = 48;
-                }
-                else
-                {
-                    (*result)[(*size) - 1] = ' ';
-                }
-                (*size)--;
-            }*/
-        }  
+        write_left_prec(result, size, number, elem);
     }
     else
     {
-        write_left(result, size, number, elem);
-       /* if ((*result)[0] == '+' || (*result)[0] == '-' || (*result)[0] == ' ')
-            i = 1;
-        else
-        {
-            i = 0;
-        }
-        while ((*size) != i)
-        {
-            while (number != 0)
-            {
-                mod = number % 10;
-                len = 10 * len + mod;
-                number = number / 10;
-                //(*result)[i] = ((char) mod + 48);
-                //printf("len - %i\n", len);
-            }
-            if (len != 0)
-            {
-                mod = len % 10;
-                len = len / 10;
-                (*result)[i] = ((char) mod + 48);
-            }
-            else
-            {
-                (*result)[i] = ' ';
-            }
-            //printf("%s\n", (*result));
-            i++;
-        }*/
+        write_right_prec(size, number, result, elem);
     }
     
 
+}
+
+void where_num(char **result, t_spec *elem)
+{
+    int i;
+    //printf("==%s\n", *result);
+    i = 0;
+    while ((*result)[i] == ' ')
+    {
+        i++;
+    }
+    i--;
+    if (i == 0)
+    {
+        if (elem->negative == 1)
+            (*result)[i] = '-';
+        else if (elem->plus == 1)
+        {
+            (*result)[i] = '+';
+        }
+        else if (elem->probel == 1)
+        {
+            (*result)[i] = ' ';
+        }
+        
+    }
+    else
+    {
+        if (elem->negative == 1)
+            (*result)[i] = '-';
+        else if (elem->plus == 1)
+        {
+            (*result)[i] = '+';
+        }
+        else if (elem->probel == 1)
+        {
+            (*result)[i] = ' ';
+        }
+    }
 }
 
 void check_flag(char **result, int *size, t_spec *elem, int number)
@@ -228,13 +263,7 @@ void check_flag(char **result, int *size, t_spec *elem, int number)
     }
     if (elem->plus == 1)
     {
-        if (elem->negative == 0)
-        {
-            (*result)[0] = '+';
-            //printf("%c\n", (*result)[0]);
-        }
-        //else
-          //  (*result)[0] = '-';
+        ;
     }
     else if (elem->probel == 1)
     {
@@ -249,67 +278,56 @@ void check_flag(char **result, int *size, t_spec *elem, int number)
 void check_size_and_negative(t_spec **elem, int *size, int *number)
 {
     *size = 0;
-    if ((*number) < 0)
+    if ((*elem)->plus == 1 || (*number) < 0)
     {
-        *number = -(*number);
-        (*elem)->negative = 1;
-        if ((*elem)->precision != 0 && (*elem)->precision >= (*elem)->field)
+        if ((*number) < 0)
         {
-            (*size)++;
+            (*elem)->negative = 1;
+            *number = - (*number);
         }
-    }
-    if ((*elem)->plus == 1 && (*elem)->negative != 1)
-    {
         (*size)++;
     }
-    *size = *size + ft_intlen(*number);
-    if ((*size) < (*elem)->field)
+    if ((*elem)->precision > ft_intlen(*number))
     {
-        //*size = *size + ft_intlen(*number);
-        if ((*elem)->precision > (*size))
-        {
-            *size = (*elem)->precision;
-        }
-    }
-    else if ((*size) < (*elem)->field)
-    {
-        printf("dsd");
-        *size = (*elem)->field;
-    }
-    /*if ((*number) < 0)
-    {
-        *number = -(*number);
-        (*elem)->negative = 1;
-        if ((*elem)->precision != 0 && (*elem)->precision >= (*elem)->field)
-        {
-            (*size)++;
-        }
-    }
-    if ((*elem)->plus == 1 && (*elem)->negative != 1)
-    {
-        (*size)++;
-    }*/
-    //^^^^^^^^^^Переделать!!!^^^^^^^^^^^^^^^
-}
-
-void where_num(char **result, t_spec *elem)
-{
-    int i;
-    //printf("==%s\n", *result);
-    i = 0;
-    while ((*result)[i] == ' ')
-    {
-        i++;
-    }
-    if (i == 0)
-    {
-        (*result)[i] = '-';
+        (*size) = (*size) + (*elem)->precision;
     }
     else
     {
-        (*result)[i - 1] = '-';
+        (*size) = (*size) + ft_intlen(*number);
+    }
+    if ((*elem)->field > (*size))
+    {
+        (*size) = (*elem)->field;
     }
 }
+
+void write_nul_or_probel(char **result, char set, t_spec *elem)
+{
+    int i;
+    int len;
+
+    len = 0;
+    while ((*result)[len + 1] != '\0')
+    {
+        len++;
+    }
+    //printf("len = %i\n", len);
+    i = 0;
+    //printf("res - %c\n", (*result)[0]);
+    if (elem->plus == 1 || elem->negative == 1 || elem->probel == 1)
+        i++;
+    while (i != len)
+    {
+        if ((*result)[i] >= '0' && (*result)[i] <= '9')
+            return ;
+        else
+        {
+            (*result)[i] = set;
+        }
+        i++;
+    }
+}
+
 void write_int_elem(t_spec *elem, va_list ap)
 {
     int size;
@@ -318,96 +336,61 @@ void write_int_elem(t_spec *elem, va_list ap)
     int i;
     int len;
     int mod;
+    char sign;
 
     len = 0;
     i = 0;
     number = va_arg(ap, int);
-    /*if (elem->field == 0)
-    {
-        size = ft_intlen(number);
-        if (elem->precision > size)
-        {
-            size = elem->precision;
-        }
-    }
-    else
-    {
-        size = elem->field;
-    }
-    if (number < 0)
-    {
-        number = -number;
-        elem->negative = 1;
-    }*/
     check_size_and_negative(&elem, &size, &number);
     //printf("%i\n", size);
     result = (char *)malloc(sizeof(char) * (size + 1));
+    int z = 0 ;
     result[size] = '\0';
-    check_flag(&result, &size, elem, number);
+    while (z != size)
+    {
+        result[z] = ' ';
+        z++;
+    }
+    if (elem->minus == 1)
+    {
+        elem->left = 1;
+    }
+    //printf("elem - %i\n", elem->precision);
     if (elem->precision != 0)
+    {
+        //printf("hi everye=one\n");
         check_precision(&result, &size, elem, number);
+        //printf("hi everye==one\n");
+    }
     else
     {
-        if (write_left(&result, &size, number, elem))
-        ;
-        //{
-          //  write_left(&result, &size, number, elem);
-        //}
-        /*if (result[0] == '+' || result[0] == '-' || result[0] == ' ')
+        if (elem->left == 1)
         {
-            i = 1;
+            //printf("hi everye=one\n");
+            write_left(&result, &size, number, elem);
         }
-        if (elem->minus == 1)
-        {
-            while (i != size)
-            {
-                while (number != 0)
-                {
-                    mod = number % 10;
-                    len = 10 * len + mod;
-                    number = number / 10;
-                    //(*result)[i] = ((char) mod + 48);
-                    //printf("len - %i\n", len);
-                }
-                if (len != 0)
-                {
-                    mod = len % 10;
-                    len = len / 10;
-                    result[i] = ((char) mod + 48);
-                }
-                else
-                {
-                    result[i] = ' ';
-                }
-                i++;
-            }
-        }*/
         else
         {
-            /*while (size != i)
-            {
-                if (number != 0)
-               {
-                    mod = number % 10;
-                    number = number / 10;
-                    result[size - 1] = (char) mod + 48;
-                }
-                else if (elem->nul == 1 && elem->minus == 0)
-                {
-                    result[size - 1] = 48;
-                }
-                else
-                {
-                    result[size - 1] = ' ';
-                }
-                size--;
-            }*/
+            //printf("hi everye=one\n");
             write_right(&size, number, &result, elem);
         }
     }
-    if (elem->negative == 1)
+    if (elem->nul == 1 && elem->precision == 0)
+    {
+        //printf("hi everye=one\n");
+        //printf("elem - %i\n", elem->precision);
+        write_nul_or_probel(&result, '0', elem);
+        //printf("hi everye=one\n");
+    }
+    else
+    {
+        //printf("hi everye=one\n");
+        write_nul_or_probel(&result, ' ', elem);
+    }
+    //printf("result - %s\n", result);
+
+    if ((elem->negative == 1 || elem->plus == 1) || (elem->probel == 1 && elem->precision == 0))
         where_num(&result, elem);
-        //result[0] = '-';
     ft_putstr(result);
     //check_modif(&result, &size, elem);
 }
@@ -454,15 +437,6 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
 
     size = 1;
     parametres(&elem);
-    /*elem = (t_spec *)malloc(sizeof(t_spec));
-    elem->minus = 0;
-    elem->plus = 0;
-    elem->probel = 0;
-    elem->nul = 0;
-    elem->field = 0;
-    elem->precision = 0;
-    elem->left = 0;
-    elem->negative = 0;*/
     i = 0;
     while (start <= end)
     {
@@ -486,7 +460,6 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
             }
             start++;
         }
-        // ^^^ Не закончил данную часть ^^^
         if (format[start] == '#')
         {
             elem->conv_type = (char)malloc(sizeof(char) * 1);
@@ -522,7 +495,6 @@ void ft_create_elem(const char *format, int start, int end, va_list ap)
                 start++;
             }
         }
-        // ^^^ Не закончил данную часть ^^^
         elem->conv_type = (char)malloc(sizeof(char) * 2);
         elem->conv_type = format[end];
         start++;
@@ -564,7 +536,6 @@ int ft_printf(const char *format, ...)
         }
         i++;
     }
-    //ft_putchar('\n');
     va_end(ap);
     return (i);
 }
@@ -572,8 +543,7 @@ int ft_printf(const char *format, ...)
 int main()
 {
     int d1=123, d2=42, d3=1543;
-    ft_printf("%+-2.0d\n", -123);
-    printf("--------\n");
-    printf("%+-2.0d\n", -123);
+    ft_printf("%0.6d\n", 2147483647);
+    printf("%0.6d\n", 2147483647);
     return (0);
 }
