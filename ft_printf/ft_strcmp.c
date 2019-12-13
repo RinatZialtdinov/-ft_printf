@@ -1,28 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intlen.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damerica <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/15 18:40:31 by damerica          #+#    #+#             */
-/*   Updated: 2019/09/18 17:53:19 by damerica         ###   ########.fr       */
+/*   Created: 2019/09/03 15:29:45 by damerica          #+#    #+#             */
+/*   Updated: 2019/09/18 17:59:48 by damerica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-
-int	ft_intlen(long long n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	long long i;
+	int i;
 
 	i = 0;
-	if (n <= 0)
-		i = 1;
-	while (n != 0)
+	while (s1[i] == s2[i] && s1[i] != '\0')
 	{
-		n = n / 10;
 		i++;
 	}
-	return (i);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

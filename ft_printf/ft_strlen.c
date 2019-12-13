@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intlen.c                                        :+:      :+:    :+:   */
+/*   ft_strlen.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damerica <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/15 18:40:31 by damerica          #+#    #+#             */
-/*   Updated: 2019/09/18 17:53:19 by damerica         ###   ########.fr       */
+/*   Created: 2019/09/03 15:22:12 by damerica          #+#    #+#             */
+/*   Updated: 2019/09/18 17:53:37 by damerica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <string.h> 
 
-int	ft_intlen(long long n)
+size_t	ft_strlen(const char *str)
 {
-	long long i;
+	size_t i;
 
 	i = 0;
-	if (n <= 0)
-		i = 1;
-	while (n != 0)
+	while (str[i] != '\0')
 	{
-		n = n / 10;
 		i++;
 	}
 	return (i);

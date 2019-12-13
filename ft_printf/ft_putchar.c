@@ -1,28 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intlen.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damerica <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/15 18:40:31 by damerica          #+#    #+#             */
-/*   Updated: 2019/09/18 17:53:19 by damerica         ###   ########.fr       */
+/*   Created: 2019/09/12 17:05:36 by damerica          #+#    #+#             */
+/*   Updated: 2019/09/12 19:04:19 by damerica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include <unistd.h>
 
-int	ft_intlen(long long n)
+void	ft_putchar(char c)
 {
-	long long i;
-
-	i = 0;
-	if (n <= 0)
-		i = 1;
-	while (n != 0)
-	{
-		n = n / 10;
-		i++;
-	}
-	return (i);
+	write(1, &c, 1);
 }
