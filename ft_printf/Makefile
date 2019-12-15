@@ -15,7 +15,10 @@ SRC = printf.c \
 	ft_putstr.c \
 	ft_intlen.c \
 	ft_strcmp.c \
-	ft_strlen.c
+	ft_strlen.c \
+	ft_itoa.c  \
+	ft_strjoin.c \
+	ft_strchr.c
 
 OBJ = $(SRC:%.c=%.o)
 NAME = libftprintf.a
