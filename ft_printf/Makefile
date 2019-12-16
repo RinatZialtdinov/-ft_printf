@@ -10,19 +10,19 @@
 #                                                                              #
 # **************************************************************************** #
 
-SRC = printf.c \
-	ft_putchar.c \
-	ft_putstr.c \
-	ft_intlen.c \
-	ft_strcmp.c \
-	ft_strlen.c \
-	ft_itoa.c  \
-	ft_strjoin.c \
-	ft_strchr.c
+SRC = ./srcs/printf.c \
+	./srcs/ft_putchar.c \
+	./srcs/ft_putstr.c \
+	./srcs/ft_intlen.c \
+	./srcs/ft_strcmp.c \
+	./srcs/ft_strlen.c \
+	./srcs/ft_itoa.c  \
+	./srcs/ft_strjoin.c \
+	./srcs/ft_strchr.c
 
 OBJ = $(SRC:%.c=%.o)
 NAME = libftprintf.a
-HEADER = printf.h
+HEADER = ./includes/printf.h
 
 all: $(NAME)
 
@@ -31,9 +31,10 @@ $(NAME): $(OBJ) $(HEADER)
 
 $(OBJ): %.o:%.c
 	@gcc -Wall -Wextra -Werror -c $<
+	mv *.o ./srcs/
 
 clean:
-	@rm -rf ./*.o
+	@rm -rf ./srcs/*.o
 
 fclean: clean
 	@rm -rf libftprintf.a
