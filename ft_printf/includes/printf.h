@@ -32,6 +32,15 @@ typedef struct  s_spec
     int lat;
 }               t_spec;
 
+typedef struct s_float
+{
+    int int_value;
+    long double float_value;
+    char *int_val_str;
+    char *float_val_str;
+    int plus_1;
+}               t_float;
+
 void	ft_putchar(char c);
 void	ft_putstr(char const *s);
 int	ft_strcmp(const char *s1, const char *s2);
@@ -40,3 +49,4 @@ char	*ft_itoa(long long n, t_spec *elem);
 int	ft_intlen(long long n);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strchr(const char *str, int ch);
+char	*ft_strnew(size_t size);

@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intlen.c                                        :+:      :+:    :+:   */
+/*   ft_strnew.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: damerica <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/15 18:40:31 by damerica          #+#    #+#             */
-/*   Updated: 2019/12/15 17:04:32 by damerica         ###   ########.fr       */
+/*   Created: 2019/09/12 15:00:10 by damerica          #+#    #+#             */
+/*   Updated: 2019/09/18 18:16:15 by damerica         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "printf.h"
+#include <stdlib.h>
 
-int	ft_intlen(long long n)
+char	*ft_strnew(size_t size)
 {
-	int i;
+	char	*a;
+	int		i;
 
 	i = 0;
-	//if (!(n))
-	//	return ((int) NULL);
-	if (n <= 0)
-		i = 1;
-	n = n * (-1);
-	if (n < 0 && n * (-1) < 0)
-		i--;
-	while (n != 0)
+	a = (char *)malloc(sizeof(char) * (size + 1));
+	if (!a)
+		return (NULL);
+	while (size != 0)
 	{
-		n = n / 10;
+		a[i] = '\0';
 		i++;
+		size--;
 	}
-	return (i);
+	a[i] = '\0';
+	return (a);
 }

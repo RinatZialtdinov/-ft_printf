@@ -18,7 +18,8 @@ SRC = ./srcs/printf.c \
 	./srcs/ft_strlen.c \
 	./srcs/ft_itoa.c  \
 	./srcs/ft_strjoin.c \
-	./srcs/ft_strchr.c
+	./srcs/ft_strchr.c \
+	./srcs/ft_strnew.c
 
 OBJ = $(SRC:%.c=%.o)
 NAME = libftprintf.a
