@@ -34,11 +34,11 @@ typedef struct  s_spec
 
 typedef struct s_float
 {
-    int int_value;
+    long long int_value;
     long double float_value;
     char *int_val_str;
-    char *float_val_str;
     int plus_1;
+    char *float_val_str;
 }               t_float;
 
 void	ft_putchar(char c);

@@ -12,6 +12,8 @@
 
 //#include "libft.h"
 #include "../includes/printf.h"
+#include <float.h>
+
 void where_num(char **result, t_spec *elem);
 void write_nul_or_probel(char **result, char set, t_spec *elem);
 
@@ -23,26 +25,26 @@ void va_arg_type(t_spec *elem, va_list ap, long long *number)
         //printf("yayt\n");
         *number = (short)va_arg(ap, int);
     }
-    else if (ft_strcmp(elem->modif, "h") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' || 
-    elem->conv_type == 'x' || elem->conv_type == 'X'))
+    else if (ft_strcmp(elem->modif, "h") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' ||
+                                                  elem->conv_type == 'x' || elem->conv_type == 'X'))
     {
-        *number = (unsigned short)va_arg(ap, int);    
+        *number = (unsigned short)va_arg(ap, int);
     }
     else if (ft_strcmp(elem->modif, "hh") == 0 && (elem->conv_type == 'i' || elem->conv_type == 'd'))
     {
-        *number = (char) va_arg(ap, int);
+        *number = (char)va_arg(ap, int);
     }
-    else if (ft_strcmp(elem->modif, "hh") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' || 
-    elem->conv_type == 'x' || elem->conv_type == 'X'))
+    else if (ft_strcmp(elem->modif, "hh") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' ||
+                                                   elem->conv_type == 'x' || elem->conv_type == 'X'))
     {
-        *number = (unsigned char) va_arg(ap, int);    
+        *number = (unsigned char)va_arg(ap, int);
     }
     else if (ft_strcmp(elem->modif, "l") == 0 && (elem->conv_type == 'i' || elem->conv_type == 'd'))
     {
         *number = va_arg(ap, long int);
     }
-    else if (ft_strcmp(elem->modif, "l") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' || 
-    elem->conv_type == 'x' || elem->conv_type == 'X'))
+    else if (ft_strcmp(elem->modif, "l") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' ||
+                                                  elem->conv_type == 'x' || elem->conv_type == 'X'))
     {
         *number = va_arg(ap, unsigned long);
         //printf("hey - %lli\n", *number);
@@ -51,10 +53,10 @@ void va_arg_type(t_spec *elem, va_list ap, long long *number)
     {
         *number = va_arg(ap, long long);
     }
-    else if (ft_strcmp(elem->modif, "ll") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' || 
-    elem->conv_type == 'x' || elem->conv_type == 'X'))
+    else if (ft_strcmp(elem->modif, "ll") == 0 && (elem->conv_type == 'o' || elem->conv_type == 'u' ||
+                                                   elem->conv_type == 'x' || elem->conv_type == 'X'))
     {
-        *number = va_arg(ap, unsigned long long int);    
+        *number = va_arg(ap, unsigned long long int);
     }
     else if (ft_strcmp(elem->modif, "L") == 0 && elem->conv_type == 'f')
     {
@@ -62,7 +64,7 @@ void va_arg_type(t_spec *elem, va_list ap, long long *number)
     }
     else if (elem->conv_type == 'x' || elem->conv_type == 'X' || elem->conv_type == 'o' || elem->conv_type == 'u')
     {
-        *number = (unsigned int) va_arg(ap, int);
+        *number = (unsigned int)va_arg(ap, int);
         //printf("%lli\n", *number);
     }
     else
@@ -70,16 +72,9 @@ void va_arg_type(t_spec *elem, va_list ap, long long *number)
         *number = va_arg(ap, int);
         //printf("num - %lli\n", *number);
     }
-    
+
     //printf("ya tut\n");
 }
-
-
-
-
-
-
-
 
 void check_size_and_negative_float(t_spec **elem, int *size, t_float **number)
 {
@@ -95,7 +90,7 @@ void check_size_and_negative_float(t_spec **elem, int *size, t_float **number)
     {
         len_float = 0;
     }
-    
+
     if ((*elem)->plus == 1 || (*elem)->negative == 1 || (*elem)->probel == 1)
     {
         /*if ((*number)->int_value < 0 || (*number)->float_value < 0)
@@ -132,8 +127,6 @@ void check_size_and_negative_float(t_spec **elem, int *size, t_float **number)
                 (*size)++;
             }
         }
-        
-
     }
     if (((*elem)->precision == 0 && (*elem)->lat == 1) && (*elem)->field < ft_intlen((*number)->int_value) + (*elem)->lat + (*elem)->negative + (*elem)->probel)
     {
@@ -167,6 +160,9 @@ void write_right_prec_float(int *size, t_float *number, char **result, t_spec *e
     i = 2;
     len_float = ft_strlen(number->float_val_str);
     len_int = ft_strlen(number->int_val_str);
+    if (number->plus_1 == 7)
+        len_float--;
+    //printf("len_int - %i\n", len_int);
     //(*result)[(*size) - 1 - elem->precision] = '.';
     /*while (copy_precision != 0 || number.int_value != -1)
     {
@@ -192,18 +188,22 @@ void write_right_prec_float(int *size, t_float *number, char **result, t_spec *e
     }*/
     while ((*size) != 0)
     {
+        //printf("res - %s\n", number->int_val_str);
         if (len_float != 0)
         {
             (*result)[(*size) - 1] = number->float_val_str[len_float - 1];
             len_float--;
+            //printf("size - %i\n", *size);
         }
         else if (len_int != 0)
         {
+            //printf("res - %s\n", *result);
             (*result)[(*size) - 1] = number->int_val_str[len_int - 1];
             len_int--;
         }
         (*size)--;
     }
+    //printf("res - %s\n", *result);
 }
 
 void write_left_prec_float(char **result, int *size, t_float *number, t_spec *elem)
@@ -283,7 +283,6 @@ void check_precision_float(char **result, int *size, t_spec *elem, t_float *numb
     {
         write_right_prec_float(size, number, result, elem);
     }
-    
 }
 
 void write_left_float(char **result, int *size, t_float *number, t_spec *elem)
@@ -389,7 +388,7 @@ void write_right_float(int *size, t_float *number, char **result, t_spec *elem)
     {
         len_float = 0;
     }
-    
+
     len_int = ft_strlen(number->int_val_str);
     i = 0;
 
@@ -400,6 +399,7 @@ void write_right_float(int *size, t_float *number, char **result, t_spec *elem)
     }
     while ((*size) != 0)
     {
+        //printf("result - |%s|\n", *result);
         if (len_float != 0)
         {
             (*result)[(*size) - 1] = number->float_val_str[len_float - 1];
@@ -455,7 +455,6 @@ void write_right_float(int *size, t_float *number, char **result, t_spec *elem)
             printf("number - %f\n", number.float_value);
         }
     }*/
-
 }
 
 void write_float_elem(t_spec *elem, t_float *number)
@@ -532,7 +531,7 @@ void conver_float_in_str(t_spec *elem, t_float **number)
         copy_precision = 6;
         //printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
     }
-    else if(elem->precision > 0)
+    else if (elem->precision > 0)
     {
         (*number)->float_val_str = (char *)malloc(sizeof(char) * (elem->precision));
         (*number)->float_val_str[elem->precision] = '\0';
@@ -550,16 +549,37 @@ void conver_float_in_str(t_spec *elem, t_float **number)
     //printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
     while (copy_precision != 0 && elem->precision != 0)
     {
-        mod = (*number)->float_value * ten;
+        /*mod = (*number)->float_value * ten;
         mod = mod % 10;
         (*number)->float_val_str[i] = mod + 48;
         i++;
         ten = ten * 10;
+        copy_precision--;*/
+        mod = (*number)->float_value * 10;
+        mod = mod % 10;
+        //if (elem->precision == 16 && (*number)->float_val_str[i - 1] == '0' && copy_precision == 1)
+        //{
+        //printf("fff\n");
+        //    (*number)->float_val_str[i] = '1';
+        //    printf("number - |%s|\n", (*number)->float_val_str);
+        //}
+        //else
+        //{
+        (*number)->float_val_str[i] = mod + 48;
+        //}
+        i++;
+        (*number)->float_value = (*number)->float_value * 10 - mod;
+        //ten = ten * 10;
         copy_precision--;
+        //printf("number - |%s|\n", (*number)->float_val_str);
+        //printf("number - |%s|\n", (*number)->float_val_str);
         if (copy_precision == 0)
         {
-            mod = (*number)->float_value * ten;
+            //printf("tyt\n");
+            mod = (*number)->float_value * 10; // ten
             mod = mod % 10;
+            //printf("%i\n", mod);
+            //printf("%i\n", mod);
             if (mod >= 5)
             {
                 //printf("tyt\n");
@@ -567,6 +587,7 @@ void conver_float_in_str(t_spec *elem, t_float **number)
                 //printf("i - %i\n", i);
                 while (1)
                 {
+                    //printf("tyt\n");
                     if ((*number)->float_val_str[i] == '.')
                     {
                         (*number)->plus_1 = 1;
@@ -574,6 +595,7 @@ void conver_float_in_str(t_spec *elem, t_float **number)
                     }
                     if ((*number)->float_val_str[i] < '9')
                     {
+                        //printf("tyt\n");
                         (*number)->float_val_str[i]++;
                         break;
                     }
@@ -586,6 +608,7 @@ void conver_float_in_str(t_spec *elem, t_float **number)
             }
         }
     }
+    //printf("number - |%s|\n", (*number)->int_val_str);
     if (elem->precision == 0)
     {
         mod = (*number)->float_value * 10;
@@ -594,8 +617,11 @@ void conver_float_in_str(t_spec *elem, t_float **number)
             (*number)->plus_1 = 1;
         }
     }
+    //printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
+    //printf("number - |%s|\n", (*number)->float_val_str);
     //printf("hey\n");
-    if ((*number)->plus_1 == 1)
+    //printf("int_value - %i\n", (*number)->int_value);
+    /*if ((*number)->plus_1 == 1)
     {
         //printf("het\n");
         (*number)->int_val_str = ft_itoa((*number)->int_value + 1, elem);
@@ -603,11 +629,27 @@ void conver_float_in_str(t_spec *elem, t_float **number)
     else
     {
         (*number)->int_val_str = ft_itoa((*number)->int_value, elem);
-    }
+    }*/
+    /*mod = ft_intlen((*number)->int_value);
+    (*number)->int_val_str = (char *)malloc(sizeof(char) * (ft_intlen((*number)->int_value) + 1));
+    (*number)->int_val_str[mod] = '\0';
+    printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
+    while (mod != 0)
+    {
+        (*number)->int_val_str[mod - 1] = (*number)->int_value % 10 + 48;
+        printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
+        (*number)->int_value = (*number)->int_value / 10;
+        mod--;
+    }*/
+    mod = ft_strlen((*number)->float_val_str);
+    (*number)->int_val_str = ft_itoa((*number)->int_value + (*number)->plus_1, elem);
+    if ((size_t)mod != ft_strlen((*number)->float_val_str))
+        (*number)->plus_1 = 7;
+    //printf("number - |%s|\n", (*number)->int_val_str);
     //printf("hey\n");
-    //printf("%s\n", (*number)->float_val_str);
+    //printf("%s\n", (*number)->int_val_str);
     //printf("len_float - %i\n", ft_strlen((*number)->float_val_str));
-    //printf("*number = %s\n", (*number).float_val_str);
+    //printf("*number = %s\n", (*number)->float_val_str);
 }
 
 void va_arg_type_for_float(long double *num, va_list ap, t_spec *elem)
@@ -624,7 +666,6 @@ void va_arg_type_for_float(long double *num, va_list ap, t_spec *elem)
     {
         *num = va_arg(ap, double);
     }
-    
 }
 
 void convert_float(t_spec *elem, va_list ap)
@@ -632,12 +673,13 @@ void convert_float(t_spec *elem, va_list ap)
     t_float *number;
     long double num;
 
-    number = (t_float*)malloc(sizeof(t_float));
+    number = (t_float *)malloc(sizeof(t_float));
     //num = va_arg(ap, double);
     va_arg_type_for_float(&num, ap, elem);
     number->plus_1 = 0;
     number->int_value = num / 1;
     number->float_value = num - number->int_value;
+    //printf("number - %.10Lf\n", number->float_value);
     if (number->int_value < 0 || number->float_value < 0)
     {
         number->float_value = -1 * number->float_value;
@@ -652,16 +694,13 @@ void convert_float(t_spec *elem, va_list ap)
     free(number);
 }
 
-
-
-
 void check_size_str(t_spec **elem, int *size, char **str)
 {
     //printf("size - %i\n", (*elem)->precision);
     if (*str == NULL)
     {
         if ((*elem)->precision >= 6)
-            *size = 6;//printf("sssssss\n");
+            *size = 6; //printf("sssssss\n");
         else if ((*elem)->field > 0 && (*elem)->precision != -1)
         {
             //printf("ddd\n");
@@ -673,11 +712,10 @@ void check_size_str(t_spec **elem, int *size, char **str)
         {
             *size = 6;
         }
-        
     }
     else
     {
-    *size = ft_strlen(*str);
+        *size = ft_strlen(*str);
     }
     //printf("size - %i\n", *size);
     if ((*elem)->field > (*size) || (*elem)->precision == 0)
@@ -688,7 +726,7 @@ void check_size_str(t_spec **elem, int *size, char **str)
     {
         (*size) = (*elem)->field;
     }
-    else if ((*elem)->precision > 0 && (*elem)->precision < (int) ft_strlen(*str))
+    else if ((*elem)->precision > 0 && (*elem)->precision < (int)ft_strlen(*str))
     {
         (*size) = (*elem)->precision;
     }
@@ -799,12 +837,12 @@ void write_right_str(int *size, char *str, char **result, t_spec *elem)
         {
             str = "(null)";
         }
-        
+
         //str = "(null)";
         //return ;
     }
     len_int = ft_strlen(str);
-    
+
     //len_int = ft_strlen(str);
     i = 0;
     //printf("size - %i\n", len_int);
@@ -881,7 +919,7 @@ void write_str_elem(t_spec *elem, va_list ap)
         //printf("size - %i\n", size);
         check_precision_str(&result, &size, elem, str);
     }
-    else 
+    else
     {
         if (elem->left == 1)
         {
@@ -896,13 +934,6 @@ void write_str_elem(t_spec *elem, va_list ap)
     ft_putstr(result);
     //free(result);
 }
-
-
-
-
-
-
-
 
 void write_nul_or_probel(char **result, char set, t_spec *elem);
 
@@ -942,13 +973,13 @@ void check_size_16(t_spec **elem, int *size, char **number)
 {
     //printf("number - %s\n", *number);
     *size = 0;
-    if ((*elem)->precision > (int) ft_strlen(*number) - 1 )
+    if ((*elem)->precision > (int)ft_strlen(*number) - 1)
     {
         (*size) = (*size) + (*elem)->precision;
     }
     else if ((*elem)->precision != 0 && number != 0)
     {
-        (*size) = (*size) + (int) ft_strlen(*number);
+        (*size) = (*size) + (int)ft_strlen(*number);
     }
     if ((*elem)->field > (*size))
     {
@@ -959,9 +990,9 @@ void check_size_16(t_spec **elem, int *size, char **number)
         //printf("ssss\n");
         (*size) = *size + 2;
     }
-    if ((*elem)->lat == 1 && (*elem)->field != 0 && (*elem)->field > (*elem)->precision && (*elem)->field < (int) ft_strlen(*number) + 2)
+    if ((*elem)->lat == 1 && (*elem)->field != 0 && (*elem)->field > (*elem)->precision && (*elem)->field < (int)ft_strlen(*number) + 2)
     {
-        (*size) = (int) ft_strlen(*number) + 2;
+        (*size) = (int)ft_strlen(*number) + 2;
     }
 }
 
@@ -991,7 +1022,6 @@ void write_right_prec_16(int *size, char *number, char **result, t_spec *elem)
         }
         (*size)--;
     }
-
 }
 
 void write_left_prec_16(char **result, int *size, char *number, t_spec *elem)
@@ -1049,7 +1079,7 @@ void write_right_16(int *size, char *number, char **result, t_spec *elem)
         //printf("hi\n");
         if (len_int != 0 && elem->precision == -1)
         {
-            if (elem->nul == 1 && elem->minus == 0 && (number[len_int - 1] == 'x' || number[len_int - 1] == 'X'))//printf("size - %c\n", number[len_int - 1]);
+            if (elem->nul == 1 && elem->minus == 0 && (number[len_int - 1] == 'x' || number[len_int - 1] == 'X')) //printf("size - %c\n", number[len_int - 1]);
             {
                 //printf("ffffffff\n");
                 (*result)[(*size) - 1] = '0';
@@ -1080,10 +1110,10 @@ void where_num_16(t_spec *elem, char **result, char *number)
     //printf("|%s|\n", *result);
     while ((*result)[i] == ' ' && (*result)[i] != '\0')
     {
-       i++;
+        i++;
     }
     if ((*result)[i] == '\0' || number[0] == '0')
-        return ;
+        return;
     if (i == 0 && elem->minus == 0)
     {
         //printf("ddd\n");
@@ -1096,7 +1126,7 @@ void where_num_16(t_spec *elem, char **result, char *number)
         {
             (*result)[1] = 'X';
         }
-        return ;
+        return;
     }
     if (elem->minus == 1)
     {
@@ -1110,7 +1140,7 @@ void where_num_16(t_spec *elem, char **result, char *number)
             (*result)[k + 2] = (*result)[k];
             k--;
         }
-       (*result)[0] = '0';
+        (*result)[0] = '0';
         if (elem->conv_type == 'x')
         {
             (*result)[1] = 'x';
@@ -1132,8 +1162,6 @@ void where_num_16(t_spec *elem, char **result, char *number)
             (*result)[i - 1] = 'X';
         }
     }
-
-    
 }
 
 void write_left_16(char **result, int *size, char *number, t_spec *elem)
@@ -1218,7 +1246,7 @@ void write_16_elem(t_spec *elem, char *number)
     }*/
     if (elem->lat == 1)
     {
-        where_num_16(elem, &result, number);   
+        where_num_16(elem, &result, number);
     }
     elem->len = ft_strlen(result);
     ft_putstr(result);
@@ -1251,7 +1279,7 @@ void convert_number(t_spec *elem, va_list ap)
         new_number = "0\0";
         write_16_elem(elem, new_number);
         //free(new_number);
-        return ;
+        return;
     }
     else
     {
@@ -1265,7 +1293,7 @@ void convert_number(t_spec *elem, va_list ap)
         {
             write_letter_a(mod, &new_number, k);
         }
-        else if(mod >= 10 && mod <= 15 && elem->conv_type == 'X')
+        else if (mod >= 10 && mod <= 15 && elem->conv_type == 'X')
         {
             write_letter_A(mod, &new_number, k);
         }
@@ -1285,38 +1313,29 @@ void convert_number(t_spec *elem, va_list ap)
     }*/
     //printf("nubmer |%s|\n", new_number);
     write_16_elem(elem, new_number);
-    free (new_number);    //printf("nubmer |%s|\n", new_number);
+    free(new_number); //printf("nubmer |%s|\n", new_number);
 }
-
-
-
-
-
-
-
-
-
 
 char *ft_strjoin_one_elem(char *s1, char elem)
 {
-    char	*newstr;
-	int		i;
+    char *newstr;
+    int i;
 
-	i = 0;
-	while (s1[i] != '\0')
-		i++;
-	newstr = (char *)malloc(sizeof(char) * (i + 2));
-	if (!newstr)
-		return (NULL);
-	i = 0;
-	while (s1[i] != '\0')
-	{
-		newstr[i] = s1[i];
-		i++;
-	}
+    i = 0;
+    while (s1[i] != '\0')
+        i++;
+    newstr = (char *)malloc(sizeof(char) * (i + 2));
+    if (!newstr)
+        return (NULL);
+    i = 0;
+    while (s1[i] != '\0')
+    {
+        newstr[i] = s1[i];
+        i++;
+    }
     newstr[i] = elem;
     newstr[i + 1] = '\0';
-	return (newstr);
+    return (newstr);
 }
 
 void write_right(int *size, char *number, char **result, t_spec *elem)
@@ -1360,7 +1379,6 @@ void write_right(int *size, char *number, char **result, t_spec *elem)
             //count++;
         }
         (*size)--;*/
-        
     }
     //printf("result - %s\n", *result);
     //printf("result - %i\n", elem->negative);
@@ -1377,16 +1395,16 @@ int write_left(char **result, int *size, char *number, t_spec *elem)
     i = 0;
     len_num = ft_strlen(number);
     //printf("y \n");
-     //printf("res - |%s|\n", *result);
+    //printf("res - |%s|\n", *result);
     if (elem->plus == 1 || elem->negative == 1 || elem->probel == 1)
     {
         i = 1;
     }
     //if (elem->minus == 1)
     //{
-        while (i != (*size))
-        {
-            /*while (number != 0)
+    while (i != (*size))
+    {
+        /*while (number != 0)
             {
                 mod = number % 10;
                 len = 10 * len + mod;
@@ -1394,22 +1412,22 @@ int write_left(char **result, int *size, char *number, t_spec *elem)
                     //(*result)[i] = ((char) mod + 48);
                     //printf("len - %i\n", len);
             }*/
-            //printf("len - %i\n", len);
-            if (len_num != i1)
-            {
-                //printf("yay\n");
-                //mod = len % 10;
-                //len = len / 10;
-                if (number[0] == '0' && elem->precision == -1)
-                    (*result)[i] = number[i1];
-                else if (number[0] != '0' && elem->precision == -1)
-                    (*result)[i] = number[i1];
-                i1++;
-            }
-            i++;
+        //printf("len - %i\n", len);
+        if (len_num != i1)
+        {
+            //printf("yay\n");
+            //mod = len % 10;
+            //len = len / 10;
+            if (number[0] == '0' && elem->precision == -1)
+                (*result)[i] = number[i1];
+            else if (number[0] != '0' && elem->precision == -1)
+                (*result)[i] = number[i1];
+            i1++;
         }
-        //printf("res - %s\n", *result);
-        return (1);
+        i++;
+    }
+    //printf("res - %s\n", *result);
+    return (1);
     //}
     //printf("res - %s\n", *result);
     //return (0);
@@ -1442,7 +1460,6 @@ void write_right_prec(int *size, char *number, char **result, t_spec *elem)
             copy_precision--;
         }
         (*size)--;
-
     }
     //printf("result - |%s|\n", *result);
 }
@@ -1504,7 +1521,7 @@ void check_precision(char **result, int *size, t_spec *elem, char *number)
     //count = ft_intlen(number);
     i = 0;
     //if (elem->precision == 0)
-      //  return ;
+    //  return ;
     if (elem->left == 1)
     {
         write_left_prec(result, size, number, elem);
@@ -1513,8 +1530,6 @@ void check_precision(char **result, int *size, t_spec *elem, char *number)
     {
         write_right_prec(size, number, result, elem);
     }
-    
-
 }
 
 void where_num(char **result, t_spec *elem)
@@ -1526,7 +1541,7 @@ void where_num(char **result, t_spec *elem)
     {
         i++;
     }
-    if (i == (int) ft_strlen(*result) && elem->minus == 1)
+    if (i == (int)ft_strlen(*result) && elem->minus == 1)
         i = 1;
     i--;
     if (i == 0)
@@ -1541,7 +1556,6 @@ void where_num(char **result, t_spec *elem)
         {
             (*result)[i] = ' ';
         }
-        
     }
     else
     {
@@ -1599,7 +1613,7 @@ void check_size_and_negative_int(t_spec **elem, int *size, long long *number)
         {
             //printf("oqrv\n");
             (*elem)->negative = 1;
-            *number = - (*number);
+            *number = -(*number);
             //printf("number |%i|\n", *number);
         }
         (*size)++;
@@ -1637,7 +1651,7 @@ void write_nul_or_probel(char **result, char set, t_spec *elem)
     while (i < len)
     {
         if (((*result)[i] >= '0' && (*result)[i] <= '9') || ((*result)[i] >= 'a' && (*result)[i] <= 'f') || ((*result)[i] >= 'A' && (*result)[i] <= 'F'))
-            return ;
+            return;
         else
         {
             (*result)[i] = set;
@@ -1654,7 +1668,7 @@ void write_int_elem(t_spec *elem, va_list ap)
     int i;
     int len;
     char *str_number;
-//printf("write_int_elem 0 \n");
+    //printf("write_int_elem 0 \n");
     len = 0;
     i = 0;
     //printf("%d\n", ft_intlen(-9223372036854775808));
@@ -1671,14 +1685,15 @@ void write_int_elem(t_spec *elem, va_list ap)
     //printf("size - %i\n", size);
     // Вот здесь присваивается указатель и раньеш он никогда не фришился
     str_number = ft_itoa(number, elem);
-    if (!str_number) {
+    if (!str_number)
+    {
         // ??? malloc failed
     }
     //printf("%s\n", str_number);
     if (ft_strcmp(str_number, "18446744073709551574") == 0)
         size = 20;
     result = (char *)malloc(sizeof(char) * (size + 1));
-    int z = 0 ;
+    int z = 0;
     result[size] = '\0';
     while (z != size)
     {
@@ -1722,8 +1737,8 @@ void write_int_elem(t_spec *elem, va_list ap)
     }
     //else
     //{
-        //printf("hi everye=one\n");
-     //   write_nul_or_probel(&result, ' ', elem);
+    //printf("hi everye=one\n");
+    //   write_nul_or_probel(&result, ' ', elem);
     //}
     //printf("result - |%s|\n", result);
 
@@ -1747,19 +1762,25 @@ void ft_create_str(t_spec *elem, va_list ap)
         write_int_elem(elem, ap);
     }
     else if (elem->conv_type == 'o')
-    {;}
+    {
+        ;
+    }
     else if (elem->conv_type == 'x' || elem->conv_type == 'X')
     {
         convert_number(elem, ap);
     }
     else if (elem->conv_type == 'c')
-    {;}
+    {
+        ;
+    }
     else if (elem->conv_type == 's')
     {
         write_str_elem(elem, ap);
     }
     else if (elem->conv_type == 'p')
-    {;}
+    {
+        ;
+    }
     else if (elem->conv_type == 'f')
     {
         convert_float(elem, ap);
@@ -1918,6 +1939,8 @@ int ft_create_elem(const char *format, int start, int end, va_list ap)
     size = 1;
     parametres(&elem);
     i = start;
+
+    //printf("max - %i\n", LDBL_MANT_DIG);
     while (start <= end)
     {
         while (format[start] == '+' || format[start] == '-' || format[start] == ' ' || format[start] == '0')
@@ -1991,7 +2014,7 @@ int ft_create_elem(const char *format, int start, int end, va_list ap)
         //printf("elem - %i\n", elem->len);
         free(elem->modif);
         free(elem);
-        return(result);
+        return (result);
     }
     //printf("ft_create_elem 1\n");
     //printf("elem->conv-type %c\n", elem->conv_type);
@@ -2008,7 +2031,6 @@ int ft_create_elem(const char *format, int start, int end, va_list ap)
     free(elem);
     return (result);
 }
-
 
 int ft_printf(const char *format, ...)
 {
@@ -2029,10 +2051,8 @@ int ft_printf(const char *format, ...)
         {
             z = i;
             i++;
-            while (format[i] != 'c' && format[i] != 's' && format[i] != 'p' 
-            && format[i] != 'd' && format[i] != 'i' && format[i] != 'o' && 
-            format[i] != 'u' && format[i] != 'x' && format[i] != 'X' && format[i] != 'f'
-            && format[i] != '%' && format[i + 1] != '\0')
+            while (format[i] != 'c' && format[i] != 's' && format[i] != 'p' && format[i] != 'd' && format[i] != 'i' && format[i] != 'o' &&
+                   format[i] != 'u' && format[i] != 'x' && format[i] != 'X' && format[i] != 'f' && format[i] != '%' && format[i + 1] != '\0')
             {
                 //printf("aaa\n");
                 i++;
@@ -2059,9 +2079,10 @@ int ft_printf(const char *format, ...)
 
 /*int main()
 {
+    //#define LDBL_MANT_DIG = 128;
     //static char *s_hidden = "hi low\0don't print me lol\0";
-    ft_printf("%#-5.0f|\n", 7.3);
-    printf("%#-5.0f|\n", 7.3);
+    ft_printf("%.16f|\n", 0.000000000000000100);
+    printf("%.16f|\n", 0.000000000000000100);
     //printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
     //printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
      return (0);
