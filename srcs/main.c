@@ -2,11 +2,11 @@
 
 int main()
 {
-    //#define LDBL_MANT_DIG = 128;
-    //static char *s_hidden = "hi low\0don't print me lol\0";
-    ft_printf("%.16f|\n", 0.000000000000000100);
-    printf("%.16f|\n", 0.000000000000000100);
-    //printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
-    //printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
+    // int a = 10;
+    // ft_printf("%d\n", a);
+    // printf("%d\n", a);
+    char a = 'A';
+    ft_printf("%c\n", a);
+    printf("%c\n", a);
      return (0);
 }

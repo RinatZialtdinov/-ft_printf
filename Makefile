@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: bdebbie <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/24 17:50:09 by bdebbie           #+#    #+#              #
-#    Updated: 2020/01/22 14:25:40 by dmorrige         ###   ########.fr        #
+#    Updated: 2020/01/22 16:51:43 by dmorrige         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ $(OBJ): %.o:%.c
 	gcc $(FLAGS) -c $< -o $@
 
 debug:
-	gcc $(FLAGS) $(SRC) ./srcs/main.c $(LFLAGS) -g -pg -fsanitize=address -o ./debug.out
+	gcc $(FLAGS) $(SRC) ./srcs/main.c $(LFLAGS) -o ./debug.out
 
 clean:
 	$(MAKE) -C ./libft clean

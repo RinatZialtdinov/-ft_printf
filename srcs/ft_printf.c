@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   printf.c                                           :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: damerica <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 17:20:17 by damerica          #+#    #+#             */
-/*   Updated: 2019/11/27 17:20:24 by damerica         ###   ########.fr       */
+/*   Updated: 2020/01/22 18:47:54 by dmorrige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -2053,7 +2053,7 @@ int ft_printf(const char *format, ...)
             while (format[i] != 'c' && format[i] != 's' && format[i] != 'p' && format[i] != 'd' && format[i] != 'i' && format[i] != 'o' &&
                    format[i] != 'u' && format[i] != 'x' && format[i] != 'X' && format[i] != 'f' && format[i] != '%' && format[i + 1] != '\0')
             {
-                //printf("aaa\n");
+                //printf("panikaaa\n");
                 i++;
             }
             //printf("start = %i\n end = %i\n", z, i);
