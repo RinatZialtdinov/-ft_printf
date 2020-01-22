@@ -6,7 +6,7 @@
 /*   By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 17:20:17 by damerica          #+#    #+#             */
-/*   Updated: 2020/01/22 18:47:54 by dmorrige         ###   ########.fr       */
+/*   Updated: 2020/01/22 21:03:17 by dmorrige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -1752,6 +1752,14 @@ void write_int_elem(t_spec *elem, va_list ap)
     //check_modif(&result, &size, elem);
 }
 
+void    write_c_elem(t_spec *elem, va_list ap)
+{
+    char a;
+
+    a = va_arg(ap, char);
+    ft_putchar(a);
+}
+
 void ft_create_str(t_spec *elem, va_list ap)
 {
     //printf("ft_create_Str 0\n");
@@ -1770,7 +1778,7 @@ void ft_create_str(t_spec *elem, va_list ap)
     }
     else if (elem->conv_type == 'c')
     {
-        ;
+        write_c_elem(elem, ap);
     }
     else if (elem->conv_type == 's')
     {
