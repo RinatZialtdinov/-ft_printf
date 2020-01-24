@@ -6,7 +6,7 @@
 /*   By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/14 06:21:43 by dmorrige          #+#    #+#             */
-/*   Updated: 2019/05/18 16:48:48 by dmorrige         ###   ########.fr       */
+/*   Updated: 2020/01/24 16:43:26 by dmorrige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char				*ft_strsub(char const *s, unsigned int start, size_t len);
 char				*ft_strjoin(char const *s1, char const *s2);
 char				*ft_strtrim(const char *s);
 char				**ft_strsplit(char const *s, char c);
-char				*ft_itoa(int n);
+//char				*ft_itoa(int n);
 void				ft_putchar(char c);
 void				ft_putstr(char const *s);
 void				ft_putendl(char const *s);

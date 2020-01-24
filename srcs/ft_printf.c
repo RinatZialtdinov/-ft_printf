@@ -6,7 +6,7 @@
 /*   By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/11/27 17:20:17 by damerica          #+#    #+#             */
-/*   Updated: 2020/01/22 21:03:17 by dmorrige         ###   ########.fr       */
+/*   Updated: 2020/01/24 21:30:31 by dmorrige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -890,6 +890,28 @@ void write_left_str(char **result, int *size, char *str, t_spec *elem)
     }
 }
 
+void    write_c_elem(t_spec *elem, va_list ap)
+{
+    char *result;
+    char a;
+    char b;
+
+    a = (unsigned char)va_arg(ap, int);
+    b = elem->nul == 0 && !elem->minus && elem->precision == -1 ? '0' : ' ';
+    if (elem->field)
+    {
+        result = (char *)malloc(elem->field);
+        ft_memset(result, b, elem->field);
+        if (elem->minus)
+            result[0] = b;
+        else
+            result[elem->field - 1] = b;
+        write(1, result, elem->field);
+        free(result);
+    }
+    ft_putchar(a);
+}
+
 void write_str_elem(t_spec *elem, va_list ap)
 {
     char *result;
@@ -899,9 +921,7 @@ void write_str_elem(t_spec *elem, va_list ap)
 
     i = 0;
     str = va_arg(ap, char *);
-    //printf("str - %s\n", str);
     check_size_str(&elem, &size, &str);
-    //printf("size - %i\n", size);
     result = (char *)malloc(sizeof(char) * (size + 1));
     result[size] = '\0';
     while (i != size)
@@ -915,7 +935,6 @@ void write_str_elem(t_spec *elem, va_list ap)
     }
     if (elem->precision > 0)
     {
-        //printf("size - %i\n", size);
         check_precision_str(&result, &size, elem, str);
     }
     else
@@ -931,7 +950,6 @@ void write_str_elem(t_spec *elem, va_list ap)
     }
     elem->len = ft_strlen(result);
     ft_putstr(result);
-    //free(result);
 }
 
 void write_nul_or_probel(char **result, char set, t_spec *elem);
@@ -1750,14 +1768,6 @@ void write_int_elem(t_spec *elem, va_list ap)
     // так как нигде больше он не испозуется
     free(str_number);
     //check_modif(&result, &size, elem);
-}
-
-void    write_c_elem(t_spec *elem, va_list ap)
-{
-    char a;
-
-    a = va_arg(ap, char);
-    ft_putchar(a);
 }
 
 void ft_create_str(t_spec *elem, va_list ap)

@@ -5,47 +5,66 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmorrige <dmorrige@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/04/11 16:48:07 by dmorrige          #+#    #+#             */
-/*   Updated: 2019/04/24 11:38:52 by dmorrige         ###   ########.fr       */
+/*   Created: 2019/04/05 18:24:17 by kturnips          #+#    #+#             */
+/*   Updated: 2020/01/24 17:17:40 by dmorrige         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int		digit_count(unsigned int nb)
+static int	memo(int n)
 {
-	unsigned int	count;
+	size_t	i;
 
-	count = 1;
-	while (nb /= 10)
-		count++;
-	return (count);
+	i = 2;
+	if (n < 0)
+		++i;
+	while (n / 10 != 0)
+	{
+		++i;
+		n /= 10;
+	}
+	return (i);
 }
 
-char			*ft_itoa(int n)
+static char	*add_digits(char *new, int i, unsigned int bn, int n)
 {
-	char			*str;
-	unsigned int	n_cpy;
-	unsigned int	i;
-	unsigned int	len;
+	int	flag;
 
-	if (n < 0)
-		n_cpy = (unsigned int)(n * -1);
-	else
-		n_cpy = (unsigned int)n;
-	len = (unsigned int)digit_count(n_cpy);
-	i = 0;
-	if (!(str = ft_strnew(len + (n < 0 ? 1 : 0))))
-		return (0);
-	if (n < 0 && (str[i] = '-'))
-		len++;
-	i = len - 1;
-	while (n_cpy >= 10)
+	flag = 1;
+	while ((n / 10) != 0)
 	{
-		str[i--] = (char)(n_cpy % 10 + '0');
-		n_cpy /= 10;
+		flag = flag * 10;
+		n /= 10;
 	}
-	str[i] = (char)(n_cpy % 10 + '0');
-	str[len] = '\0';
-	return (str);
+	while (flag >= 1)
+	{
+		new[i++] = (bn / flag + '0');
+		bn = bn - (bn / flag) * flag;
+		flag = flag / 10;
+	}
+	new[i] = '\0';
+	return (new);
+}
+
+char		*ft_itoa(int n)
+{
+	char			*new;
+	size_t			i;
+	unsigned int	bn;
+
+	new = (char *)(malloc(sizeof(char) * memo(n)));
+	if (new)
+	{
+		i = 0;
+		bn = n;
+		if (n < 0)
+		{
+			bn = -n;
+			new[i++] = '-';
+		}
+		new = add_digits(new, i, bn, n);
+		return (new);
+	}
+	return (NULL);
 }
