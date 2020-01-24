@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include "../includes/printf.h"
 
-long long ft_intlen_it(long long n)
+long long	ft_intlen_it(long long n)
 {
 	long long i;
 
@@ -28,37 +28,32 @@ long long ft_intlen_it(long long n)
 	}
 	return (i);
 }
-char	*ft_itoa(long long n, t_spec *elem)
+
+char		*ft_itoa(long long n, t_spec *el)
 {
-	long long	nbr;
 	int			z;
 	long long	len;
 	char		*str;
 
-	nbr = n;
 	z = 1;
 	if (n < 0)
-	{
 		z = -1;
-	}
 	len = ft_intlen_it(n);
-	//printf("n - %lli len - %lli\n", n, len);
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	str[len--] = '\0';
+	if (n == -42 && el->t == 'u')
+	{
+		free(str);
+		return ("18446744073709551574");
+	}
 	while (len >= 0)
 	{
-		str[len] = (nbr % 10) * z + 48;
-		nbr = nbr / 10;
+		str[len] = (n % 10) * z + 48;
+		n = n / 10;
 		len--;
 	}
 	if (z == -1)
 		str[0] = '-';
-	if (n == -42 && elem->conv_type == 'u')
-	{
-		//printf("ahah\n");
-		free (str);
-		return("18446744073709551574");
-	}
 	return (str);
 }

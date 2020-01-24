@@ -17,8 +17,6 @@ int	ft_intlen(long long n)
 	int i;
 
 	i = 0;
-	//if (!(n))
-	//	return ((int) NULL);
 	if (n <= 0)
 		i = 1;
 	n = n * (-1);

@@ -19,7 +19,24 @@ SRC = ./srcs/printf.c \
 	./srcs/ft_itoa.c  \
 	./srcs/ft_strjoin.c \
 	./srcs/ft_strchr.c \
-	./srcs/ft_strnew.c
+	./srcs/ft_strnew.c \
+	./srcs/write_x.c \
+	./srcs/write_s.c \
+	./srcs/write_percent.c \
+	./srcs/write_idu.c \
+	./srcs/write_f.c \
+	./srcs/type_x.c \
+	./srcs/type_s.c \
+	./srcs/type_p.c \
+	./srcs/type_idu.c \
+	./srcs/precision_f.c \
+	./srcs/precision_x.c \
+	./srcs/percent.c \
+	./srcs/flags.c \
+	./srcs/convert_f.c \
+	./srcs/common_functions.c \
+	./srcs/check_size_x.c \
+	./srcs/check_size_f.c
 
 OBJ = $(SRC:%.c=%.o)
 NAME = libftprintf.a
