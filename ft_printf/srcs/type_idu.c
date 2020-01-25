@@ -16,7 +16,7 @@ void	check_size_and_negative_int(t_spec **el, int *size, long long *numb)
 {
 	*size = 0;
 	if (((*el)->plus == 1 || (*numb) < 0 ||
-	(*el)->probel == 1) && ((*el)->t != 'u'))
+	(*el)->spc == 1) && ((*el)->t != 'u'))
 	{
 		if ((*numb) < 0)
 		{
@@ -25,9 +25,9 @@ void	check_size_and_negative_int(t_spec **el, int *size, long long *numb)
 		}
 		(*size)++;
 	}
-	if ((*el)->precision > 0 && (*el)->precision > ft_intlen(*numb))
-		(*size) = (*size) + (*el)->precision;
-	else if ((*el)->precision != 0 || *numb != 0)
+	if ((*el)->pre > 0 && (*el)->pre > ft_intlen(*numb))
+		(*size) = (*size) + (*el)->pre;
+	else if ((*el)->pre != 0 || *numb != 0)
 		(*size) = (*size) + ft_intlen(*numb);
 	if ((*el)->field != 0 && (*el)->field > (*size))
 		(*size) = (*el)->field;
@@ -40,8 +40,8 @@ void	write_int_el_1(t_spec *el, char **result, int size, char *str_numb)
 	z = -1;
 	while (++z != size)
 		(*result)[z] = ' ';
-	if (el->precision > 0)
-		check_precision(result, &size, el, str_numb);
+	if (el->pre > 0)
+		check_pre(result, &size, el, str_numb);
 	else
 	{
 		if (el->minus == 1)
@@ -49,8 +49,8 @@ void	write_int_el_1(t_spec *el, char **result, int size, char *str_numb)
 		else
 			write_right(&size, str_numb, result, el);
 	}
-	if (el->nul == 1 && el->precision <= 0)
-		write_nul_or_probel(result, '0', el);
+	if (el->nul == 1 && el->pre <= 0)
+		write_nul_or_spc(result, '0', el);
 }
 
 void	write_int_el(t_spec *el, va_list ap)
@@ -73,10 +73,10 @@ void	write_int_el(t_spec *el, va_list ap)
 	result[size] = '\0';
 	write_int_el_1(el, &result, size, str_numb);
 	if ((el->negative == 1 || el->plus == 1)
-	|| (el->probel == 1 && el->precision == 0))
+	|| (el->spc == 1 && el->pre == 0))
 		where_num(&result, el);
 	el->len = ft_strlen(result);
 	ft_putstr(result);
 	free(result);
-	free(str_numb);
+	//free(str_numb);
 }

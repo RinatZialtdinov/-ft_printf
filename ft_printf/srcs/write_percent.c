@@ -16,9 +16,9 @@ void	write_right_prec(int *size, char *numb, char **result, t_spec *el)
 {
 	int i;
 	int len_num;
-	int copy_precision;
+	int copy_pre;
 
-	copy_precision = el->precision;
+	copy_pre = el->pre;
 	len_num = ft_strlen(numb);
 	i = 0;
 	while ((*size) != i)
@@ -26,13 +26,13 @@ void	write_right_prec(int *size, char *numb, char **result, t_spec *el)
 		if (len_num != 0)
 		{
 			(*result)[(*size) - 1] = numb[len_num - 1];
-			copy_precision--;
+			copy_pre--;
 			len_num--;
 		}
-		else if (copy_precision > 0)
+		else if (copy_pre > 0)
 		{
 			(*result)[(*size) - 1] = '0';
-			copy_precision--;
+			copy_pre--;
 		}
 		(*size)--;
 	}
@@ -51,20 +51,20 @@ void	write_left_prec(char **result, int *size, char *numb, t_spec *el)
 {
 	int i;
 	int len_num;
-	int copy_precision;
+	int copy_pre;
 	int i1;
 
 	i1 = 0;
-	copy_precision = el->precision;
+	copy_pre = el->pre;
 	len_num = ft_strlen(numb);
 	i = 0;
-	if (el->plus == 1 || el->negative == 1 || el->probel == 1)
+	if (el->plus == 1 || el->negative == 1 || el->spc == 1)
 		i = 1;
 	while (i != (*size))
 	{
-		if (copy_precision > len_num)
+		if (copy_pre > len_num)
 		{
-			copy_precision--;
+			copy_pre--;
 			(*result)[i] = '0';
 		}
 		else
@@ -73,7 +73,7 @@ void	write_left_prec(char **result, int *size, char *numb, t_spec *el)
 	}
 }
 
-void	check_precision(char **result, int *size, t_spec *el, char *numb)
+void	check_pre(char **result, int *size, t_spec *el, char *numb)
 {
 	int i;
 

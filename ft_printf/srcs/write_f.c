@@ -32,7 +32,7 @@ void	write_left_float(char **result, int *size, t_float *numb, t_spec *el)
 	write_left_float_cont(&len_int, &i, &len_float, numb);
 	i2 = -1;
 	i1 = -1;
-	if (el->plus == 1 || el->negative == 1 || el->probel == 1)
+	if (el->plus == 1 || el->negative == 1 || el->spc == 1)
 		i = 1;
 	while (i != (*size))
 	{
@@ -40,7 +40,7 @@ void	write_left_float(char **result, int *size, t_float *numb, t_spec *el)
 			(*result)[i] = numb->int_val_str[++i1];
 		else if (len_float != i2 + 1)
 			(*result)[i] = numb->float_val_str[++i2];
-		else if (el->lat == 1 && el->precision == 0)
+		else if (el->lat == 1 && el->pre == 0)
 		{
 			(*result)[i] = '.';
 			el->lat = 0;
@@ -56,11 +56,11 @@ void	write_right_float(int *size, t_float *numb, char **result, t_spec *el)
 	int len_int;
 
 	len_float = 0;
-	if (el->precision != 0)
+	if (el->pre != 0)
 		len_float = ft_strlen(numb->float_val_str);
 	len_int = ft_strlen(numb->int_val_str);
 	i = 0;
-	if (el->lat == 1 && el->precision == 0)
+	if (el->lat == 1 && el->pre == 0)
 	{
 		(*result)[(*size) - 1] = '.';
 		(*size)--;
@@ -86,8 +86,8 @@ void	write_float_el(t_spec *el, t_float *numb)
 	result = (char *)malloc(sizeof(char) * (size + 1));
 	while (z + 1 != size)
 		result[++z] = ' ';
-	if (el->precision > 0)
-		check_precision_float(&result, &size, el, numb);
+	if (el->pre > 0)
+		check_pre_float(&result, &size, el, numb);
 	else
 	{
 		if (el->minus == 1)
@@ -96,9 +96,8 @@ void	write_float_el(t_spec *el, t_float *numb)
 			write_right_float(&size, numb, &result, el);
 	}
 	if (el->nul == 1)
-		write_nul_or_probel(&result, '0', el);
-	if ((el->negative == 1 || el->plus == 1) ||
-	(el->probel == 1 && el->precision == 0))
+		write_nul_or_spc(&result, '0', el);
+	if ((el->negative == 1 || el->plus == 1) || (el->spc == 1 && el->pre == 0))
 		where_num(&result, el);
 	el->len = ft_strlen(result);
 	ft_putstr(result);

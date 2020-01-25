@@ -14,23 +14,23 @@
 
 void	write_right_prec_16(int *size, char *numb, char **result, t_spec *el)
 {
-	int copy_precision_16;
+	int copy_pre_16;
 	int len_num;
 
 	len_num = ft_strlen(numb);
-	copy_precision_16 = el->precision;
+	copy_pre_16 = el->pre;
 	while ((*size) != 0)
 	{
 		if (len_num != 0)
 		{
 			(*result)[(*size) - 1] = numb[len_num - 1];
-			copy_precision_16--;
+			copy_pre_16--;
 			len_num--;
 		}
-		else if (copy_precision_16 > 0)
+		else if (copy_pre_16 > 0)
 		{
 			(*result)[(*size) - 1] = '0';
-			copy_precision_16--;
+			copy_pre_16--;
 		}
 		(*size)--;
 	}
@@ -39,19 +39,19 @@ void	write_right_prec_16(int *size, char *numb, char **result, t_spec *el)
 void	write_left_prec_16(char **result, int *size, char *numb, t_spec *el)
 {
 	int i;
-	int copy_precision_16;
+	int copy_pre_16;
 	int len_num;
 	int i1;
 
 	i1 = 0;
 	len_num = ft_strlen(numb);
-	copy_precision_16 = el->precision;
+	copy_pre_16 = el->pre;
 	i = -1;
 	while (++i != (*size))
 	{
-		if (copy_precision_16 > len_num)
+		if (copy_pre_16 > len_num)
 		{
-			copy_precision_16--;
+			copy_pre_16--;
 			(*result)[i] = '0';
 		}
 		else
@@ -65,7 +65,7 @@ void	write_left_prec_16(char **result, int *size, char *numb, t_spec *el)
 	}
 }
 
-void	check_precision_16(char **result, int *size, t_spec *el, char *numb)
+void	check_pre_16(char **result, int *size, t_spec *el, char *numb)
 {
 	if (el->left == 1)
 	{

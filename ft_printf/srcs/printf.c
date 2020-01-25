@@ -18,7 +18,7 @@ void	ft_create_str(t_spec *el, va_list ap)
 		write_int_el(el, ap);
 	else if (el->t == 'o')
 	{
-		;
+		convert_numb_8(el, ap);
 	}
 	else if (el->t == 'x' || el->t == 'X')
 		convert_numb(el, ap);
@@ -41,10 +41,10 @@ void	parametres(t_spec **el)
 	(*el) = (t_spec *)malloc(sizeof(t_spec));
 	(*el)->minus = 0;
 	(*el)->plus = 0;
-	(*el)->probel = 0;
+	(*el)->spc = 0;
 	(*el)->nul = 0;
 	(*el)->field = 0;
-	(*el)->precision = -1;
+	(*el)->pre = -1;
 	(*el)->left = 0;
 	(*el)->negative = 0;
 	(*el)->it_nul = 0;
@@ -143,13 +143,14 @@ int		ft_printf(const char *format, ...)
 	return (k - count);
 }
 
-/*int main()
-{
-	//#define LDBL_MANT_DIG = 128;
-	//static char *s_hidden = "hi low\0don't print me lol\0";
-	ft_printf("%p|\n", NULL);
-	printf("%p|\n", NULL);
-	//printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
-	//printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
-	 return (0);
-}*/
+// int main()
+// {
+// 	//#define DBL_MIN    2.2250738585072014E-308
+// 	//static char *s_hidden = "hi low\0don't print me lol\0";
+// 	//unsigned long k = -42;
+// 	ft_printf("@moulitest: %#.o %#.0o|\n", 0, 0);
+// 	printf("@moulitest: %#.o %#.0o|\n", 0, 0);
+// 	//printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
+// 	//printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
+//  return (0);
+// }

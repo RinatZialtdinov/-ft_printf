@@ -12,7 +12,7 @@
 
 #include "../includes/printf.h"
 
-void	write_nul_or_probel_percent(char **result, char set)
+void	write_nul_or_spc_percent(char **result, char set)
 {
 	int i;
 
@@ -88,8 +88,8 @@ void	write_two_percent(t_spec *el)
 		write_left_percent(&result, &size);
 	else
 		write_right_percent(&size, &result);
-	if (el->nul == 1 && el->precision <= 0 && el->minus == 0)
-		write_nul_or_probel_percent(&result, '0');
+	if (el->nul == 1 && el->pre <= 0 && el->minus == 0)
+		write_nul_or_spc_percent(&result, '0');
 	el->len = ft_strlen(result);
 	ft_putstr(result);
 	free(result);

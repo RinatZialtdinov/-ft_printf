@@ -47,17 +47,17 @@ void	write_letter_a(int mod, char **new_numb, int k)
 void	check_size_16(t_spec **el, int *size, char **numb)
 {
 	*size = 0;
-	if ((*el)->precision > (int)ft_strlen(*numb) - 1)
-		(*size) = (*size) + (*el)->precision;
-	else if ((*el)->precision != 0 && numb != 0)
+	if ((*el)->pre > (int)ft_strlen(*numb) - 1)
+		(*size) = (*size) + (*el)->pre;
+	else if ((*el)->pre != 0 && numb != 0)
 		(*size) = (*size) + (int)ft_strlen(*numb);
 	if ((*el)->field > (*size))
 		(*size) = (*el)->field;
 	if ((*el)->lat == 1 && (*el)->field <
-	(*el)->precision + 2 && *numb[0] != '0')
+	(*el)->pre + 2 && *numb[0] != '0')
 		(*size) = *size + 2;
 	if ((*el)->lat == 1 && (*el)->field != 0 && (*el)->field >
-	(*el)->precision && (*el)->field < (int)ft_strlen(*numb) + 2)
+	(*el)->pre && (*el)->field < (int)ft_strlen(*numb) + 2)
 		(*size) = (int)ft_strlen(*numb) + 2;
 	if ((*el)->t == 'p' && (*el)->field == 0 && *size == 1)
 		*size = 3;

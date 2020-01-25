@@ -16,8 +16,8 @@ void	write_16_el_1(t_spec *el, char *numb, char **result, int *size)
 {
 	if (el->minus == 1)
 		el->left = 1;
-	if (el->precision > 0)
-		check_precision_16(result, size, el, numb);
+	if (el->pre > 0)
+		check_pre_16(result, size, el, numb);
 	else
 	{
 		if (el->left == 1)
@@ -43,10 +43,10 @@ void	write_16_el(t_spec *el, char *numb)
 		i++;
 	}
 	write_16_el_1(el, numb, &result, &size);
-	if (el->nul == 1 && el->precision <= 0)
-		write_nul_or_probel(&result, '0', el);
+	if (el->nul == 1 && el->pre <= 0)
+		write_nul_or_spc(&result, '0', el);
 	else
-		write_nul_or_probel(&result, ' ', el);
+		write_nul_or_spc(&result, ' ', el);
 	if (el->lat == 1)
 		where_num_16(el, &result, numb);
 	el->len = ft_strlen(result);
@@ -72,6 +72,19 @@ void	convert_numb_1(t_spec *el, long long copy_numb, char *new_numb, int k)
 	}
 }
 
+int		value_k(long long numb)
+{
+	int k;
+
+	k = 0;
+	while (numb > 0)
+	{
+		numb = numb / 16;
+		k++;
+	}
+	return (k);
+}
+
 void	convert_numb(t_spec *el, va_list ap)
 {
 	long long	numb;
@@ -79,14 +92,9 @@ void	convert_numb(t_spec *el, va_list ap)
 	char		*new_numb;
 	int			k;
 
-	k = 0;
 	va_arg_t(el, ap, &numb);
 	copy_numb = numb;
-	while (numb > 0)
-	{
-		numb = numb / 16;
-		k++;
-	}
+	k = value_k(numb);
 	if (copy_numb == 0)
 	{
 		el->it_nul = 1;

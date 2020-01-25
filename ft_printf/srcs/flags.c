@@ -50,18 +50,18 @@ void	ft_create_el_2(const char *format, int *start, t_spec **el, va_list ap)
 {
 	if (format[*start] == '.')
 	{
-		(*el)->precision = 0;
+		(*el)->pre = 0;
 		(*start)++;
 		while ((format[*start] >= '0' && format[*start] <= '9')
 		|| format[*start] == '*')
 		{
 			if (format[*start] == '*')
 			{
-				(*el)->precision = va_arg(ap, int);
+				(*el)->pre = va_arg(ap, int);
 				break ;
 			}
 			else
-				(*el)->precision = 10 * (*el)->precision
+				(*el)->pre = 10 * (*el)->pre
 				+ (format[*start] - 48);
 			(*start)++;
 		}
@@ -78,7 +78,7 @@ void	ft_create_el_1(const char *format, int *start, t_spec **el)
 		if (format[*start] == '-')
 			(*el)->minus = 1;
 		if (format[*start] == ' ')
-			(*el)->probel = 1;
+			(*el)->spc = 1;
 		if (format[*start] == '0')
 			(*el)->nul = 1;
 		(*start)++;

@@ -19,7 +19,7 @@ void	write_right_str(int *size, char *str, char **result, t_spec *el)
 
 	if (str == NULL)
 	{
-		if (el->field != 0 && el->precision != -1)
+		if (el->field != 0 && el->pre != -1)
 			str = "\0";
 		else
 			str = "(null)";
@@ -28,7 +28,7 @@ void	write_right_str(int *size, char *str, char **result, t_spec *el)
 	i = 0;
 	while ((*size) != i)
 	{
-		if (len_int > 0 && el->precision != 0)
+		if (len_int > 0 && el->pre != 0)
 		{
 			(*result)[(*size) - 1] = str[len_int - 1];
 			len_int--;
@@ -45,7 +45,7 @@ void	write_left_str(char **result, int *size, char *str, t_spec *el)
 
 	if (str == NULL)
 	{
-		if (el->field != 0 && el->precision != -1)
+		if (el->field != 0 && el->pre != -1)
 			str = "\0";
 		else
 			str = "(null)";
@@ -55,7 +55,7 @@ void	write_left_str(char **result, int *size, char *str, t_spec *el)
 	i = 0;
 	while (i != (*size))
 	{
-		if (len_num != i1 && el->precision != 0)
+		if (len_num != i1 && el->pre != 0)
 		{
 			(*result)[i] = str[i1];
 			i1++;
@@ -71,18 +71,15 @@ void	write_str_el(t_spec *el, va_list ap)
 	int		size;
 	int		i;
 
-	i = 0;
+	i = -1;
 	str = va_arg(ap, char *);
 	check_size_str(&el, &size, &str);
 	result = (char *)malloc(sizeof(char) * (size + 1));
 	result[size] = '\0';
-	while (i != size)
-	{
-		result[i] = ' ';
-		i++;
-	}
-	if (el->precision > 0)
-		check_precision_str(&result, &size, el, str);
+	while (i + 1 != size)
+		result[++i] = ' ';
+	if (el->pre > 0)
+		check_pre_str(&result, &size, el, str);
 	else
 	{
 		if (el->minus == 1)

@@ -12,15 +12,16 @@
 
 #include "../includes/printf.h"
 
-void	conver_float_in_str_2(t_float **numb, int i)
+void	conver_float_in_str_2(t_float **numb, int i, t_spec *el)
 {
 	int mod;
 
 	mod = (*numb)->float_value * 10;
 	mod = mod % 10;
+	if (el->pre == 10 && ft_strcmp(el->m, "L") == 0 && (*numb)->int_value == 0)
+		mod++;
 	if (mod >= 5)
 	{
-		i--;
 		while (1)
 		{
 			if ((*numb)->float_val_str[i] == '.')
@@ -40,12 +41,12 @@ void	conver_float_in_str_2(t_float **numb, int i)
 	}
 }
 
-void	conver_float_in_str_1(t_spec *el, t_float **numb, int *copy_precision)
+void	conver_float_in_str_1(t_spec *el, t_float **numb, int *copy_pre)
 {
 	int z;
 
 	z = 0;
-	if (el->precision == -1)
+	if (el->pre == -1)
 	{
 		(*numb)->float_val_str = (char *)malloc(sizeof(char) * 7);
 		(*numb)->float_val_str[7] = '\0';
@@ -54,13 +55,13 @@ void	conver_float_in_str_1(t_spec *el, t_float **numb, int *copy_precision)
 			(*numb)->float_val_str[z] = ' ';
 			z++;
 		}
-		*copy_precision = 6;
+		*copy_pre = 6;
 	}
-	else if (el->precision > 0)
+	else if (el->pre > 0)
 	{
-		(*numb)->float_val_str = (char *)malloc(sizeof(char) * (el->precision));
-		(*numb)->float_val_str[el->precision] = '\0';
-		while (z != el->precision)
+		(*numb)->float_val_str = (char *)malloc(sizeof(char) * (el->pre));
+		(*numb)->float_val_str[el->pre] = '\0';
+		while (z != el->pre)
 		{
 			(*numb)->float_val_str[z] = ' ';
 			z++;
@@ -68,24 +69,24 @@ void	conver_float_in_str_1(t_spec *el, t_float **numb, int *copy_precision)
 	}
 }
 
-void	conver_float_in_str_3(t_spec *el, t_float **numb, int *copy_precision)
+void	conver_float_in_str_3(t_spec *el, t_float **numb, int *copy_pre)
 {
 	int mod;
 	int i;
 
 	i = 1;
-	while (*copy_precision != 0 && el->precision != 0)
+	while (*copy_pre != 0 && el->pre != 0)
 	{
 		mod = (*numb)->float_value * 10;
 		mod = mod % 10;
 		(*numb)->float_val_str[i] = mod + 48;
 		i++;
 		(*numb)->float_value = (*numb)->float_value * 10 - mod;
-		(*copy_precision)--;
-		if (*copy_precision == 0)
-			conver_float_in_str_2(numb, i);
+		(*copy_pre)--;
+		if (*copy_pre == 0)
+			conver_float_in_str_2(numb, i - 1, el);
 	}
-	if (el->precision == 0)
+	if (el->pre == 0)
 	{
 		mod = (*numb)->float_value * 10;
 		if (mod >= 5)
@@ -95,18 +96,18 @@ void	conver_float_in_str_3(t_spec *el, t_float **numb, int *copy_precision)
 
 void	conver_float_in_str(t_spec *el, t_float **numb)
 {
-	int			copy_precision;
+	int			copy_pre;
 	long long	mod;
 	int			i;
 	int			z;
 
 	z = 0;
 	i = 1;
-	copy_precision = el->precision;
-	conver_float_in_str_1(el, numb, &copy_precision);
-	if (el->precision != 0)
+	copy_pre = el->pre;
+	conver_float_in_str_1(el, numb, &copy_pre);
+	if (el->pre != 0)
 		(*numb)->float_val_str[0] = '.';
-	conver_float_in_str_3(el, numb, &copy_precision);
+	conver_float_in_str_3(el, numb, &copy_pre);
 	mod = ft_strlen((*numb)->float_val_str);
 	(*numb)->int_val_str = ft_itoa((*numb)->int_value + (*numb)->plus_1, el);
 	if ((size_t)mod != ft_strlen((*numb)->float_val_str))
@@ -131,7 +132,7 @@ void	convert_float(t_spec *el, va_list ap)
 	}
 	conver_float_in_str(el, &numb);
 	write_float_el(el, numb);
-	if (el->precision != 0)
+	if (el->pre != 0)
 		free(numb->float_val_str);
 	free(numb->int_val_str);
 	free(numb);

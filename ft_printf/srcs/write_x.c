@@ -19,9 +19,10 @@ void	write_right_16(int *size, char *numb, char **result, t_spec *el)
 
 	len_int = ft_strlen(numb);
 	i = 0;
+	//printf("dsfsa\n");
 	while ((*size) != i)
 	{
-		if (len_int != 0 && el->precision == -1)
+		if (len_int != 0 && el->pre == -1)
 		{
 			if (el->nul == 1 && el->minus == 0
 			&& (numb[len_int - 1] == 'x' || numb[len_int - 1] == 'X'))
@@ -35,10 +36,11 @@ void	write_right_16(int *size, char *numb, char **result, t_spec *el)
 				len_int--;
 			}
 		}
-		else if (el->nul == 1 && el->precision <= 0)
+		else if (el->nul == 1 && el->pre <= 0)
 			(*result)[(*size) - 1] = '0';
 		(*size)--;
 	}
+	//printf("%s\n", *result);
 }
 
 void	where_num_16_1(t_spec *el, char **result, int k, int i)
@@ -54,9 +56,10 @@ void	where_num_16_1(t_spec *el, char **result, int k, int i)
 			k--;
 		}
 		(*result)[0] = '0';
+		//printf("fdfsa\n");
 		if (el->t == 'x' || el->t == 'p')
 			(*result)[1] = 'x';
-		else
+		else if (el->t != 'o')
 			(*result)[1] = 'X';
 	}
 	else
@@ -64,7 +67,7 @@ void	where_num_16_1(t_spec *el, char **result, int k, int i)
 		(*result)[i - 2] = '0';
 		if (el->t == 'x' || el->t == 'p')
 			(*result)[i - 1] = 'x';
-		else
+		else if (el->t != 'o')
 			(*result)[i - 1] = 'X';
 	}
 }
@@ -76,16 +79,18 @@ void	where_num_16(t_spec *el, char **result, char *numb)
 
 	k = 0;
 	i = 0;
+	//printf("%s\n", *result);
 	while ((*result)[i] == ' ' && (*result)[i] != '\0')
 		i++;
 	if (((*result)[i] == '\0' || numb[0] == '0') && (el->t != 'p'))
 		return ;
 	if (i == 0 && el->minus == 0)
 	{
+		//printf("fdfsa\n");
 		(*result)[0] = '0';
 		if (el->t == 'x' || el->t == 'p')
 			(*result)[1] = 'x';
-		else
+		else if (el->t != 'o')
 			(*result)[1] = 'X';
 		return ;
 	}
@@ -101,9 +106,12 @@ void	write_left_16(char **result, int *size, char *numb, t_spec *el)
 	len_num = ft_strlen(numb);
 	i1 = 0;
 	i = 0;
+	if (el->lat == 1)
+		i++;
 	while (i != (*size))
 	{
-		if (len_num != i1 && el->precision == -1)
+		//printf("%s\n", *result);
+		if (len_num != i1 && el->pre == -1)
 		{
 			(*result)[i] = numb[i1];
 			i1++;

@@ -57,18 +57,18 @@ void	where_num(char **result, t_spec *el)
 			(*result)[i] = '-';
 		else if (el->plus == 1)
 			(*result)[i] = '+';
-		else if (el->probel == 1)
+		else if (el->spc == 1)
 			(*result)[i] = ' ';
 	}
 	if (el->negative == 1)
 		(*result)[i] = '-';
 	else if (el->plus == 1)
 		(*result)[i] = '+';
-	else if (el->probel == 1)
+	else if (el->spc == 1)
 		(*result)[i] = ' ';
 }
 
-void	write_nul_or_probel(char **result, char set, t_spec *el)
+void	write_nul_or_spc(char **result, char set, t_spec *el)
 {
 	int i;
 	int len;
@@ -77,7 +77,7 @@ void	write_nul_or_probel(char **result, char set, t_spec *el)
 	while ((*result)[len + 1] != '\0')
 		len++;
 	i = 0;
-	if (el->plus == 1 || el->negative == 1 || el->probel == 1)
+	if (el->plus == 1 || el->negative == 1 || el->spc == 1)
 		i++;
 	while (i < len)
 	{
