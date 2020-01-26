@@ -24,7 +24,7 @@ void	ft_create_str(t_spec *el, va_list ap)
 		convert_numb(el, ap);
 	else if (el->t == 'c')
 	{
-		;
+		write_c_elem(el, ap);
 	}
 	else if (el->t == 's')
 		write_str_el(el, ap);
@@ -51,24 +51,6 @@ void	parametres(t_spec **el)
 	(*el)->lat = 0;
 	(*el)->len = 0;
 	(*el)->m = ft_strnew(3);
-}
-
-int		check_two_percent(const char *format, t_spec *el, int start, int end)
-{
-	while (start <= end)
-	{
-		if (format[start] == '%')
-		{
-			write_two_percent(el);
-			return (1);
-		}
-		start++;
-	}
-	if (!(el->t))
-	{
-		return (1);
-	}
-	return (0);
 }
 
 int		ft_create_el(const char *format, int start, int end, va_list ap)
@@ -100,6 +82,8 @@ int		ft_create_el(const char *format, int start, int end, va_list ap)
 	return (result);
 }
 
+//void while_in_printf(const char *format, )
+
 int		ft_printf(const char *format, ...)
 {
 	va_list	ap;
@@ -109,7 +93,6 @@ int		ft_printf(const char *format, ...)
 	int		count;
 
 	count = 0;
-	z = -1;
 	i = 0;
 	k = 0;
 	va_start(ap, format);
@@ -124,16 +107,12 @@ int		ft_printf(const char *format, ...)
 			format[i] != 'u' && format[i] != 'x' && format[i] != 'X'
 			&& format[i] != 'f' && format[i] != '%'
 			&& format[i + 1] != '\0')
-			{
 				i++;
-			}
 			k = k + ft_create_el(format, z + 1, i, ap);
 			count++;
 		}
 		else
-		{
 			ft_putchar(format[i]);
-		}
 		i++;
 		k++;
 	}

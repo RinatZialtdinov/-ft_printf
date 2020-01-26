@@ -12,7 +12,7 @@
 
 #include "../includes/printf.h"
 
-void	write_letter_A(int mod, char **new_numb, int k)
+void	write_letter_up_a(int mod, char **new_numb, int k)
 {
 	if (mod == 10)
 		(*new_numb)[k - 1] = 'A';

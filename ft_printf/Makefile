@@ -37,7 +37,12 @@ SRC = ./srcs/printf.c \
 	./srcs/common_functions.c \
 	./srcs/check_size_x.c \
 	./srcs/check_size_f.c \
-	./srcs/file1.c
+	./srcs/write_o.c \
+	./srcs/type_o.c \
+	./srcs/check_size_o.c \
+	./srcs/precision_o.c \
+	./srcs/write_c.c \
+	./srcs/ft_memset.c
 
 OBJ = $(SRC:%.c=%.o)
 NAME = libftprintf.a

@@ -14,6 +14,7 @@
 # include <stdarg.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <unistd.h>
 
 typedef struct  s_spec
 {
@@ -41,6 +42,16 @@ typedef struct s_float
 	char *float_val_str;
 }               t_float;
 
+void	*ft_memset(void *memptr, int val, size_t num);
+void write_c_elem(t_spec *elem, va_list ap);
+void	write_right_8(int *size, char *numb, char **result, t_spec *el);
+void	where_num_8_1(t_spec *el, char **result, int k, int i);
+void	where_num_8(t_spec *el, char **result, char *numb);
+void	write_left_8(char **result, int *size, char *numb, t_spec *el);
+void	write_right_prec_8(int *size, char *numb, char **result, t_spec *el);
+void	write_left_prec_8(char **result, int *size, char *numb, t_spec *el);
+void	check_pre_8(char **result, int *size, t_spec *el, char *numb);
+void	check_size_8(t_spec **el, int *size, char **numb);
 void	write_8_el(t_spec *el, char *numb);
 void	convert_numb_8_1(long long copy_numb, char *new_numb, int k);
 int		value_k_8(long long numb);
@@ -79,7 +90,7 @@ void write_right_str(int *size, char *str, char **result, t_spec *el);
 void write_left_str(char **result, int *size, char *str, t_spec *el);
 void write_str_el(t_spec *el, va_list ap);
 void write_nul_or_spc(char **result, char set, t_spec *el);
-void write_letter_A(int mod, char **new_numb, int k);
+void write_letter_up_a(int mod, char **new_numb, int k);
 void write_letter_a(int mod, char **new_numb, int k);
 void check_size_16(t_spec **el, int *size, char **numb);
 void write_right_prec_16(int *size, char *numb, char **result, t_spec *el);

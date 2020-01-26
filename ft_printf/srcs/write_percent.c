@@ -87,3 +87,21 @@ void	check_pre(char **result, int *size, t_spec *el, char *numb)
 		write_right_prec(size, numb, result, el);
 	}
 }
+
+int		check_two_percent(const char *format, t_spec *el, int start, int end)
+{
+	while (start <= end)
+	{
+		if (format[start] == '%')
+		{
+			write_two_percent(el);
+			return (1);
+		}
+		start++;
+	}
+	if (!(el->t))
+	{
+		return (1);
+	}
+	return (0);
+}
