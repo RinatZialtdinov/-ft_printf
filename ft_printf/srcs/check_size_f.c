@@ -60,7 +60,7 @@ void	va_arg_t_for_float(long double *num, va_list ap, t_spec *el)
 {
 	if (ft_strcmp(el->m, "l") == 0)
 	{
-		*num = va_arg(ap, long int);
+		*num = va_arg(ap, double);
 	}
 	else if (ft_strcmp(el->m, "L") == 0)
 	{

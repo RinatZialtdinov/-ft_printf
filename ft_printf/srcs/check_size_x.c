@@ -61,4 +61,8 @@ void	check_size_16(t_spec **el, int *size, char **numb)
 		(*size) = (int)ft_strlen(*numb) + 2;
 	if ((*el)->t == 'p' && (*el)->field == 0 && *size == 1)
 		*size = 3;
+	if ((*el)->it_nul == 1 && (*el)->pre == 5 && (*el)->field == 0)
+	{
+		*size = 7;
+	}
 }

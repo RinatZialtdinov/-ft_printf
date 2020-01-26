@@ -89,4 +89,5 @@ void	write_str_el(t_spec *el, va_list ap)
 	}
 	el->len = ft_strlen(result);
 	ft_putstr(result);
+	free (result);
 }

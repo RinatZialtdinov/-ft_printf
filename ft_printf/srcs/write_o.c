@@ -17,9 +17,11 @@ void	write_right_8(int *size, char *numb, char **result, t_spec *el)
 	int len_int;
 
 	len_int = ft_strlen(numb);
+	//printf("sad|%s|\n", numb);
 	while ((*size) != 0)
 	{
-		if (len_int != 0 && el->pre == -1)
+		//printf("|%s|\n", *result);
+		if ((len_int != 0 && el->pre <= 0 && el->it_nul != 1) || (el->it_nul == 1 && el->pre == -1))
 		{
 			if (el->nul == 1 && el->minus == 0 && (numb[len_int - 1] == 'x'))
 			{
@@ -30,12 +32,15 @@ void	write_right_8(int *size, char *numb, char **result, t_spec *el)
 			{
 				(*result)[(*size) - 1] = numb[len_int - 1];
 				len_int--;
+				if (el->it_nul == 1)
+					return;
 			}
 		}
 		else if (el->it_nul == 1 && el->pre == 0 && el->lat == 1)
 		{
 			(*result)[(*size) - 1] = '0';
-			el->it_nul = 0;
+			if (el->it_nul == 1)
+					return;
 		}
 		(*size)--;
 	}

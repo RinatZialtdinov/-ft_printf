@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 
 #include "../includes/printf.h"
-
+#include <limits.h>
 void	ft_create_str(t_spec *el, va_list ap)
 {
 	if (el->t == 'd' || el->t == 'i' || el->t == 'u')
@@ -127,8 +127,8 @@ int		ft_printf(const char *format, ...)
 // 	//#define DBL_MIN    2.2250738585072014E-308
 // 	//static char *s_hidden = "hi low\0don't print me lol\0";
 // 	//unsigned long k = -42;
-// 	ft_printf("%05o|\n", 43);
-// 	printf("%05o|\n", 43);
+// 	ft_printf("%#5.0o|\n", 0);
+// 	printf("%#5.0o|\n", 0);
 // 	//printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
 // 	//printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
 //  return (0);

@@ -104,10 +104,22 @@ void	convert_numb(t_spec *el, va_list ap)
 	}
 	else
 	{
-		new_numb = (char *)malloc(sizeof(char) * (k + 1));
-		new_numb[k] = '\0';
+		if (copy_numb == -1)
+		{
+			new_numb = (char *)malloc(sizeof(char) * (24));
+			if (el->t == 'x')
+				new_numb = ft_strcpy(new_numb, "ffffffffffffffff");
+			else
+				new_numb = ft_strcpy(new_numb, "FFFFFFFFFFFFFFFF");
+		}
+		else
+		{
+			new_numb = (char *)malloc(sizeof(char) * (k + 1));
+			new_numb[k] = '\0';
+		}
 	}
 	convert_numb_1(el, copy_numb, new_numb, k);
 	write_16_el(el, new_numb);
-	free(new_numb);
+	if (copy_numb != -1)
+		free(new_numb);
 }

@@ -37,12 +37,14 @@ void	write_8_el(t_spec *el, char *numb)
 	check_size_8(&el, &size, &numb);
 	result = (char *)malloc(sizeof(char) * (size + 1));
 	result[size] = '\0';
+	//printf("size - %s\n", numb);
 	while (i != size)
 	{
 		result[i] = ' ';
 		i++;
 	}
 	write_8_el_1(el, numb, &result, &size);
+	//printf("%s\n", result);
 	if (el->nul == 1 && el->pre <= 0)
 		write_nul_or_spc(&result, '0', el);
 	else
@@ -90,6 +92,7 @@ void	convert_numb_8(t_spec *el, va_list ap)
 	va_arg_t(el, ap, &numb);
 	copy_numb = numb;
 	k = value_k_8(numb);
+	//printf("%i\n", copy_numb);
 	if (copy_numb == 0)
 	{
 		el->it_nul = 1;
@@ -99,10 +102,20 @@ void	convert_numb_8(t_spec *el, va_list ap)
 	}
 	else
 	{
-		new_numb = (char *)malloc(sizeof(char) * (k + 1));
-		new_numb[k] = '\0';
+		if (copy_numb == -1)
+		{
+			new_numb = (char *)malloc(sizeof(char) * (24));
+			new_numb = ft_strcpy(new_numb, "1777777777777777777777");
+		}
+		else
+		{
+			new_numb = (char *)malloc(sizeof(char) * (k + 1));
+			new_numb[k] = '\0';
+		}
 	}
 	convert_numb_8_1(copy_numb, new_numb, k);
+	//printf("|%s|\n", new_numb);
 	write_8_el(el, new_numb);
-	free(new_numb);
+	if (copy_numb != -1)
+		free(new_numb);
 }

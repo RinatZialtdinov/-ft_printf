@@ -65,15 +65,19 @@ char		*ft_itoa(long long n, t_spec *el)
 
 	z = 1;
 	len = ft_intlen_it(n);
+	//printf("%lli\n", n);
 	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
 		return (NULL);
 	str[len--] = '\0';
 	if (el->pre == 16 && el->t == 'f')
 		len++;
-	if (n == -42 && el->t == 'u')
+	if ((n == -42 || n == -1) && el->t == 'u')
 	{
 		free(str);
-		return ("18446744073709551574");
+		if (n == -42)
+			return ("18446744073709551574");
+		else
+			return ("18446744073709551615");
 	}
 	z = while_itoa(el, len, &str, n);
 	if (z == -1)

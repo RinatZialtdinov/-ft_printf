@@ -67,7 +67,7 @@ void	write_int_el(t_spec *el, va_list ap)
 		el->it_nul = 1;
 	check_size_and_negative_int(&el, &size, &numb);
 	str_numb = ft_itoa(numb, el);
-	if (ft_strcmp(str_numb, "18446744073709551574") == 0)
+	if (el->t == 'u' && (numb == -1 || numb == -42))
 		size = 20;
 	result = (char *)malloc(sizeof(char) * (size + 1));
 	result[size] = '\0';
@@ -78,5 +78,6 @@ void	write_int_el(t_spec *el, va_list ap)
 	el->len = ft_strlen(result);
 	ft_putstr(result);
 	free(result);
-	//free(str_numb);
+	if (!(el->t == 'u' && (numb == -1 || numb == -42)))
+		free(str_numb);
 }

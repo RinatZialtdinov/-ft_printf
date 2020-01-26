@@ -42,6 +42,7 @@ typedef struct s_float
 	char *float_val_str;
 }               t_float;
 
+char	*ft_strcpy(char *dest, const char *src);
 void	*ft_memset(void *memptr, int val, size_t num);
 void write_c_elem(t_spec *elem, va_list ap);
 void	write_right_8(int *size, char *numb, char **result, t_spec *el);
