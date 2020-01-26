@@ -72,6 +72,7 @@ int		ft_create_el(const char *format, int start, int end, va_list ap)
 		el->t = format[end];
 		start++;
 	}
+	//printf("hey\n");
 	if (check_two_percent(format, el, i, end))
 	{
 		ft_create_el_5(&result, &el);
@@ -100,13 +101,15 @@ int		ft_printf(const char *format, ...)
 	{
 		if (format[i] == '%')
 		{
+			if (format[i + 1] == '\0')
+			return (0);
 			z = i;
 			i++;
 			while (format[i] != 'c' && format[i] != 's' && format[i] != 'p'
 			&& format[i] != 'd' && format[i] != 'i' && format[i] != 'o' &&
 			format[i] != 'u' && format[i] != 'x' && format[i] != 'X'
 			&& format[i] != 'f' && format[i] != '%'
-			&& format[i + 1] != '\0')
+			&& format[i + 1] != '\0' && format[i] != '\0')
 				i++;
 			k = k + ft_create_el(format, z + 1, i, ap);
 			count++;
@@ -127,8 +130,8 @@ int		ft_printf(const char *format, ...)
 // 	//#define DBL_MIN    2.2250738585072014E-308
 // 	//static char *s_hidden = "hi low\0don't print me lol\0";
 // 	//unsigned long k = -42;
-// 	ft_printf("%#5.0o|\n", 0);
-// 	printf("%#5.0o|\n", 0);
+// 	ft_printf("{%*3d}|\n", 5, 0);
+// 	printf("{%*3d}|\n", 5, 0);
 // 	//printf(" <-i  -  %i\n", ft_printf("%f|\n", 12.2));
 // 	//printf(" <-i  -  %i\n", printf("%f|\n", 12.2));
 //  return (0);

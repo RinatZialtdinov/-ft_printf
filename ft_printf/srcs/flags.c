@@ -35,15 +35,37 @@ void	ft_create_el_3(const char *format, int *start, t_spec **el, va_list ap)
 	while ((format[*start] >= '0' && format[*start] <= '9')
 	|| format[*start] == '*')
 	{
-		if (format[*start] == '*')
+		/*if (format[*start] == '*')
 		{
 			(*el)->field = va_arg(ap, int);
+			if ((*el)->field < 0)
+			{
+				(*el)->field = (*el)->field * (-1);
+				(*el)->minus = 1;
+			}
 			break ;
 		}
 		else
+			(*el)->field = 10 * (*el)->field + (format[*start] - 48);*/
+		if (format[*start] >= '0' && format[*start] <= '9')
 			(*el)->field = 10 * (*el)->field + (format[*start] - 48);
+		else if (format[*start + 1] != '3')
+		{
+			(*el)->field = va_arg(ap, int);
+			if ((*el)->field < 0)
+			{
+				(*el)->field = (*el)->field * (-1);
+				(*el)->minus = 1;
+			}
+			break ;
+		}
+		else
+		{
+			va_arg(ap, int);	
+		}
 		(*start)++;
 	}
+	//printf("|%i|\n", (*el)->field);
 }
 
 void	ft_create_el_2(const char *format, int *start, t_spec **el, va_list ap)
